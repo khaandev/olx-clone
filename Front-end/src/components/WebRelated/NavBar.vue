@@ -1,8 +1,9 @@
 <script setup>
 import { useAuthStore } from "@/stores/Auth/Auth";
+import ProfileDropMenuVue from "./ProfileDropMenu.vue";
 import { ref } from "vue";
 const auth = useAuthStore();
-const menuItem = ref(false)
+const menuItem = ref(false);
 </script>
 
 <template>
@@ -45,10 +46,10 @@ const menuItem = ref(false)
         </button>
       </div>
 
-      <div class="col-span-3 my-auto flex gap-3">
-        <div class="my-auto">
+      <div :class="`col-span-3 my-auto flex gap-3 ${!auth.isAuthenticated}-justify-between`">
+        <div class="my-auto"  v-if="auth.isAuthenticated">
           <button
-            class="bg-blue-500 flex gap-2 hover:bg-blue-60 text-white font-semibold rounded-md py-2 px-4"
+            class="bg-gray-500 flex gap-1 hover:bg-gray-600 text-white font-semibold rounded-md py-2 px-4"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -62,7 +63,7 @@ const menuItem = ref(false)
                 clip-rule="evenodd"
               />
             </svg>
-            sell
+            Sell
           </button>
         </div>
 
@@ -86,25 +87,44 @@ const menuItem = ref(false)
           </RouterLink>
         </div>
         <div v-if="auth.isAuthenticated">
-         <button @click="menuItem  =!  menuItem">
+          <button @click="menuItem = !menuItem">
             <div class="flex">
               <img
                 src="https://www.olx.com.pk/assets/iconProfilePicture.7975761176487dc62e25536d9a36a61d.png"
                 alt=""
-                class="w-[50px] my-auto"
-              /><svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                class="w-5 h-5 my-auto font-bold"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z"
-                  clip-rule="evenodd"
-                />
-              </svg>
+                class="w-[50px]"
+              />
+              <span class="my-auto" v-if="!menuItem">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  class="w-5 h-5 my-auto font-bold"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </span>
+              <span class="my-auto"  v-else>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  class="w-5 h-5"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M11.47 7.72a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 1 1-1.06 1.06L12 9.31l-6.97 6.97a.75.75 0 0 1-1.06-1.06l7.5-7.5Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </span>
             </div>
+
+            <ProfileDropMenuVue v-if="menuItem" />
           </button>
         </div>
       </div>
@@ -120,12 +140,7 @@ const menuItem = ref(false)
       <h2>Land & Plots</h2>
     </div>
   </div>
-<div class="bg-red-500 p-10" v-if="menuItem">
-
-</div>
- 
 </template>
-
 
 <style>
 #btn {

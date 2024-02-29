@@ -27,6 +27,24 @@ const router = createRouter({
       meta: { requiresAuth: true },
       component: () => import('@/Pages/Auth/Profile.vue')
     },
+    {
+      path: '/myAdds',
+      name: 'MyAdds',
+      meta: { requiresAuth: true },
+      component: () => import('@/Pages/Auth/MyAdds.vue')
+    },
+    {
+      path: '/myFavorites',
+      name: 'MyFavorites',
+      meta: { requiresAuth: true },
+      component: () => import('@/Pages/Auth/MyFavorites.vue')
+    },
+    {
+      path: '/profile/seting',
+      name: 'Seting',
+      meta: { requiresAuth: true },
+      component: () => import('@/Pages/Auth/Seting.vue')
+    },
   ]
 });
 

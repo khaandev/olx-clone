@@ -5,6 +5,7 @@ import { defineStore } from "pinia";
 export const useAuthStore = defineStore("Auth", () => {
   const isAuthenticated = ref(false);
   const UserWrongeInfo = ref(null);
+  const registerSuccess = ref(false)
   const userInfo = ref(null);
   const AuthValidactionErrors = ref(null);
 
@@ -27,6 +28,8 @@ export const useAuthStore = defineStore("Auth", () => {
     try {
       const res = await axios.post(`/api/register`, data);
       userInfo.value = res.data.data.user;
+      registerSuccess.value = res.data.success;
+
       resetValidationsErrors()
     } catch (error) {
       AuthValidactionErrors.value = error.response;
@@ -71,6 +74,7 @@ export const useAuthStore = defineStore("Auth", () => {
     resetValidationsErrors,
     loadUser,
     Register,
+    registerSuccess,
     logout,
   };
 });

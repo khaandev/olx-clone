@@ -32,6 +32,7 @@ const handleForm = async () => {
           type="email"
           v-model="loginState.email"
         />
+        <span v-if="auth.AuthValidactionErrors?.data?.errors?.email?.length" class="text-red-500">*{{ auth.AuthValidactionErrors.data.errors.email[0] }}</span>
       </div>
       <div class="mt-6 w-full">
         <BaseInput
@@ -40,6 +41,8 @@ const handleForm = async () => {
           class="rounded-lg"
           v-model="loginState.password"
         />
+        <span v-if="auth.AuthValidactionErrors?.data?.errors?.password?.length" class="text-red-500">*{{ auth.AuthValidactionErrors.data.errors.password[0] }}</span>
+
       </div>
       <div class="mt-8">
         <ButtonPrimary text="Login" />
