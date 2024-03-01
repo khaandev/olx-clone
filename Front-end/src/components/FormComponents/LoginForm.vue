@@ -5,7 +5,9 @@ import ButtonPrimary from "@/components/WebRelated/ButtonPrimary.vue";
 import { reactive } from "vue";
 import { useAuthStore } from "@/stores/Auth/Auth";
 import router from "@/router/index.js";
+
 const auth = useAuthStore()
+
 
 const loginState = reactive({
   email: "",
