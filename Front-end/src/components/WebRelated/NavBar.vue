@@ -1,24 +1,39 @@
 <script setup>
 import { useAuthStore } from "@/stores/Auth/Auth";
+import { useCommonStore } from "@/stores/WebRelated/coman";
 import ProfileDropMenuVue from "./ProfileDropMenu.vue";
-import { ref } from "vue";
+import multiselect from '@vueform/multiselect';
+
+
+import {  onMounted, ref } from "vue";
 const auth = useAuthStore();
+const comans = useCommonStore();
+onMounted(() => {
+  comans.getCitys();
+
+})
+
 const menuItem = ref(false);
+
+
+
 </script>
 
 <template>
   <div class="bg-gray-100 p-10 drop-shadow-md">
     <div class="grid grid-cols-12 gap-3">
-      <div class="col-span-4 my-auto">
-        <select
-          name=""
-          id=""
-          class="w-full border border-gray-500 focus:brder-none p-2 focus:outline-none rounded-md focus:border-blue-500"
-        >
-          <option value="">Karachi</option>
-          <option value="">Lahore</option>
-          <option value="">Islamabad</option>
-        </select>
+      <div class="col-span-4  -mt-4">
+        
+
+        <label for="name" class="text-gray-600 hover:cursor-pointer">Chose your Location</label>
+          <multiselect
+            :options="comans.cityInfo?.data"
+            label="name"
+            id="name"
+            track-by="id"
+            :searchable="true"
+          >
+          </multiselect>
       </div>
       <div class="col-span-5 my-auto flex">
         <input
@@ -29,7 +44,7 @@ const menuItem = ref(false);
         />
         <button
           id="btn"
-          class="bg-blue-500 hover:bg-blue-60 text-white font-semibold rounded-md py-2 px-4"
+          class="bg-blue-500 hover:bg-blue-60 text-white font-semibold  py-2 px-4"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -46,7 +61,7 @@ const menuItem = ref(false);
         </button>
       </div>
 
-      <div :class="`col-span-3 my-auto flex gap-3 ${!auth.isAuthenticated}-justify-between`">
+      <div :class="`col-span-3 my-auto flex gap-3 ${auth.isAuthenticated && 'justify-between'}`">
         <div class="my-auto"  v-if="auth.isAuthenticated">
           <button
             class="bg-gray-500 flex gap-1 hover:bg-gray-600 text-white font-semibold rounded-md py-2 px-4"
@@ -87,7 +102,7 @@ const menuItem = ref(false);
           </RouterLink>
         </div>
         <div v-if="auth.isAuthenticated">
-          <button @click="menuItem = !menuItem">
+          <button @click="menuItem = !menuItem" class=" relative">
             <div class="flex">
               <img
                 src="https://www.olx.com.pk/assets/iconProfilePicture.7975761176487dc62e25536d9a36a61d.png"
@@ -142,11 +157,7 @@ const menuItem = ref(false);
   </div>
 </template>
 
-<style>
-#btn {
-  border-radius: 0px 5px 5px 0px;
-}
-#searchInput {
-  border-radius: 5px 0px 0px 5px;
-}
+
+<style  src="@vueform/multiselect/themes/default.css">
+
 </style>

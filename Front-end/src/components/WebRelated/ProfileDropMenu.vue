@@ -62,7 +62,7 @@ const logoutAuth = async () => {
 
 <template>
   <div
-    class="bg-white p-2 absolute w-[200px] -ml-[130px] mt-2 rounded-md shadow-lg"
+    class="bg-white p-2 absolute w-[200px] top-14 right-0 rounded-md shadow-lg"
   >
     <div class="my-2">
       <p class="font-mono text-left">Hello.</p>

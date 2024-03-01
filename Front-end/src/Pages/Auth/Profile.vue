@@ -7,7 +7,5 @@ import ProfileCard from '@/components/Cards/ProfileCard.vue'
 
 <template>
     <NavBar />
-    <div>
         <ProfileCard />
-    </div>
 </template>
