@@ -1,30 +1,27 @@
-import { ref } from "vue";
+import { ref ,computed} from "vue";
 import axios from "@/http/Axios";
 import { defineStore } from "pinia";
 
 export const useAuthStore = defineStore("Auth", () => {
   const isAuthenticated = ref(false);
-  // const UserWrongeInfo = ref(null);
   // const registerSuccess = ref(false);
   const userInfo = ref(null);
   const Validation = ref(null);
 
-  // const AuthValidactionErrors = ref(null);
 
-  // user Login handel
+  // user Login 
   async function attemptLogin(data) {
     try {
       await axios.get("http://localhost:8000/sanctum/csrf-cookie");
       const res = await axios.post("http://localhost:8000/login", data);
-      
-        isAuthenticated.value = true;
+      isAuthenticated.value = true;
       userInfo.value = res.data;
     } catch (error) {
       Validation.value = error.response;
-      // console.log(error.response.data.message);
+     
     } 
   }
-  // user Login handel
+  // user register
   async function Register(data) {
     try {
       const res = await axios.post("http://localhost:8000/register", data);
@@ -36,7 +33,7 @@ export const useAuthStore = defineStore("Auth", () => {
     } 
   }
 
-  // user load in hardRefresh
+  // user load 
   async function loadUser() {
     try {
       const res = await axios.get("http://localhost:8000/api/user");
@@ -45,6 +42,22 @@ export const useAuthStore = defineStore("Auth", () => {
     } catch (error) {
       Validation.value = error.response;
     } 
+  }
+
+  const userId = computed(() => {
+    return userInfo.value ? userInfo.value.user.id : null;
+  });
+
+// user update
+
+  async function updateUserDetails(data) {
+    try {
+      const res = await axios.post(`http://localhost:8000/api/user/${userId.value}`, data);
+      userInfo.value = res.data.user;
+      resetValidationsErrors();
+    } catch (error) {
+      Validation.value = error.response;
+    }
   }
 
   // logout user
@@ -63,15 +76,13 @@ export const useAuthStore = defineStore("Auth", () => {
 
   return {
     isAuthenticated,
-    // userInfo,
-    // AuthValidactionErrors,
     attemptLogin,
     userInfo,
     Validation,
-    // resetValidationsErrors,
+    resetValidationsErrors,
     loadUser,
     Register,
-    // registerSuccess,
+    updateUserDetails,
     logout,
   };
 });

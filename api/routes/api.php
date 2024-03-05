@@ -21,9 +21,8 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', [AuthenticatedSessionController::class, 'getUser']);
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+    Route::put('/user/{user}', [AuthenticatedSessionController::class, 'update'])->name('user.update');
+
 
 });
 
-// Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
-//                 ->middleware('auth')
-//                 ->name('logout');

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -31,7 +32,32 @@ class AuthenticatedSessionController extends Controller
             'user' => $user,
         ], 200);
     }
-
+    public function update(Request $request, User $user): JsonResponse
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users,email,' . $user->id],
+            'gender' => ['required', 'string', 'max:255'],
+            'phone' => ['nullable', 'string', 'max:255'],
+            'bio' => ['nullable', 'string', 'max:255'],
+            'dob' => ['required', 'max:255'],
+        ]);
+    
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'gender' => $request->gender,
+            'phone' => $request->phone,
+            'bio' => $request->bio,
+            'dob' => $request->dob,
+        ]);
+    
+        return response()->json([
+            'message' => 'User details updated successfully',
+            'user' => $user,
+        ], 200);
+    }
+    
     /**
      * Destroy an authenticated session.
      */

@@ -18,7 +18,9 @@ const emitUpdate = (event) => {
       :type="type"
       :disabled="disabled"
       class="w-full border border-gray-500  py-2 px-3 rounded-md focus:outline-none focus:border-blue-500"
-      autocomplete="off"/>
+      autocomplete="off"
+      style="transition: border-color 0.3s ease-in-out;"
+/>
       
   </div>
 

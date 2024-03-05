@@ -2,13 +2,11 @@
 import { reactive, ref } from "vue";
 import BaseInput from "../WebRelated/BaseInput.vue";
 import ButtonPrimary from "../WebRelated/ButtonPrimary.vue";
-const years = ref([]);
 import { useAuthStore } from "@/stores/Auth/Auth";
 const auth = useAuthStore();
-for (let i = 2024; i > 2000; i--) {
-  years.value.push(i);
-}
 
+
+ 
 const authInfo = reactive({
   name: auth.userInfo?.user.name || "",
   phone: auth.userInfo?.user.phone || "",
@@ -17,7 +15,7 @@ const authInfo = reactive({
   gender: auth.userInfo?.user.gender || "",
   dob: auth.userInfo?.user.dob || "",
 });
-const handleForm = () => {
+const handleForm  = async () => {
   const formHandle = reactive({
     name: authInfo.name,
     phone: authInfo.phone,
@@ -25,8 +23,11 @@ const handleForm = () => {
     bio: authInfo.bio,
     gender: authInfo.gender,
     dob: authInfo.dob,
+    _method: 'PUT'
   });
-  console.log(formHandle);
+  // console.log(formHandle, userId.value);
+  await auth.updateUserDetails(formHandle)
+
 };
 </script>
 <template>

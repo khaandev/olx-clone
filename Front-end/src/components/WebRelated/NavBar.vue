@@ -2,19 +2,66 @@
 import { useAuthStore } from "@/stores/Auth/Auth";
 import { useCommonStore } from "@/stores/WebRelated/coman";
 import ProfileDropMenuVue from "./ProfileDropMenu.vue";
-import multiselect from '@vueform/multiselect';
-
-
-import {  onMounted, ref } from "vue";
+import multiselect from "@vueform/multiselect";
+import router from "@/router/index.js";
+import { onMounted, ref } from "vue";
 const auth = useAuthStore();
+
 const comans = useCommonStore();
 onMounted(() => {
   comans.getCitys();
+});
 
-})
+const secoundMenuLink = ref([
+  {
+    id: 1,
+    name: "Mobiles",
+    path: "/mobiles",
+    Active: false,
+  },
+  // {
+  //   id: 2,
+  //   name: "Cars",
+  //   path: "/",
+  //   Active: false,
+  // },
+  // {
+  //   id: 3,
+  //   name: "Property",
+  //   path: "/",
+  //   Active: false,
+  // },
+  // {
+  //   id: 4,
+  //   name: "Property For Rent",
+  //   path: "/",
+  //   Active: false,
+  // },
+  // {
+  //   id: 5,
+  //   name: "Bikes",
+  //   path: "/",
+  //   Active: false,
+  // },
+  // {
+  //   id: 6,
+  //   name: "Animals",
+  //   path: "/",
+  //   Active: false,
+  // },
+]);
 
+
+
+
+const navigateTo = (path) => {
+  secoundMenuLink.value.forEach((item) => {
+    item.Active = item.path === path;
+  });
+
+  router.push(path);
+};
 const menuItem = ref(false);
-
 
 
 </script>
@@ -22,29 +69,44 @@ const menuItem = ref(false);
 <template>
   <div class="bg-gray-100 p-10 drop-shadow-md">
     <div class="grid grid-cols-12 gap-3">
-      <div class="col-span-4  -mt-4">
-        
+      <div class="col-span-1 my-auto">
+        <RouterLink :to="{path: '/'}" >
 
-        <label for="name" class="text-gray-600 hover:cursor-pointer">Chose your Location</label>
+        <img
+          src="https://logos-world.net/wp-content/uploads/2022/04/OLX-Symbol.png"
+          alt=""
+          class="w-[100px]"
+        />
+      </RouterLink>
+
+      </div>
+      <div class="col-span-4 my-auto">
+        <label for="name" class="text-gray-600 hover:cursor-pointer">
           <multiselect
             :options="comans.cityInfo?.data"
             label="name"
             id="name"
             track-by="id"
             :searchable="true"
+            placeholder="Select Your Location"
+            class="focus:border-blue-500 focus:outline-none"
+            style="transition: border-color 0.3s ease-in-out;"
+
           >
           </multiselect>
+        </label>
       </div>
       <div class="col-span-5 my-auto flex">
         <input
           type="text"
           id="searchInput"
           placeholder="Find Cars, Mobiles, And More.."
-          class="w-full border border-gray-500 py-2 px-3 focus:outline-none focus:border-blue-500"
+          class="w-full border border-gray-300 py-2 px-3 focus:outline-none focus:border-blue-500"
+          style="transition: border-color 0.3s ease-in-out;"
         />
         <button
           id="btn"
-          class="bg-blue-500 hover:bg-blue-60 text-white font-semibold  py-2 px-4"
+          class="bg-blue-500 hover:bg-blue-60 text-white font-semibold py-2 px-4"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -61,8 +123,12 @@ const menuItem = ref(false);
         </button>
       </div>
 
-      <div :class="`col-span-3 my-auto flex gap-3 ${auth.isAuthenticated && 'justify-between'}`">
-        <div class="my-auto"  v-if="auth.isAuthenticated">
+      <div
+        :class="`col-span-2 my-auto flex gap-3 ${
+          auth.isAuthenticated && 'justify-between'
+        }`"
+      >
+        <div class="my-auto" v-if="auth.isAuthenticated">
           <button
             class="bg-gray-500 flex gap-1 hover:bg-gray-600 text-white font-semibold rounded-md py-2 px-4"
           >
@@ -102,7 +168,7 @@ const menuItem = ref(false);
           </RouterLink>
         </div>
         <div v-if="auth.isAuthenticated">
-          <button @click="menuItem = !menuItem" class=" relative">
+          <button @click="menuItem = !menuItem" class="relative">
             <div class="flex">
               <img
                 src="https://www.olx.com.pk/assets/iconProfilePicture.7975761176487dc62e25536d9a36a61d.png"
@@ -123,7 +189,7 @@ const menuItem = ref(false);
                   />
                 </svg>
               </span>
-              <span class="my-auto"  v-else>
+              <span class="my-auto" v-else>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -145,19 +211,27 @@ const menuItem = ref(false);
       </div>
     </div>
   </div>
-  <div class="my-5 text-gray-700 font-bold">
-    <div class="flex gap-5 mx-10">
-      <h2>Mobile Phones</h2>
-      <h2>Cars</h2>
-      <h2>Motorcycles</h2>
-      <h2>Houses</h2>
-      <h2>Tablets</h2>
-      <h2>Land & Plots</h2>
-    </div>
+
+  <!-- secound nav bar -->
+  <div class="my-5 text-gray-600" id="font">
+    <ul class="flex gap-5 mx-10">
+      <li v-for="navLikn in secoundMenuLink" :key="navLikn" @click="navigateTo(navLikn.path)"
+      class=" cursor-pointer" 
+       :class="{ 'text-blue-500': navLikn.Active }">
+    {{ navLikn.name }}
+  </li>
+    </ul>
   </div>
 </template>
-
-
-<style  src="@vueform/multiselect/themes/default.css">
-
+<style scoped>
+#font {
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+}
+#searchInput{
+  border-radius: 5px 0px 0px 5px;
+}
+#btn{
+  border-radius: 0px 5px 5px 0px;
+}
 </style>

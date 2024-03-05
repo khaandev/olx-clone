@@ -45,6 +45,15 @@ const router = createRouter({
       meta: { requiresAuth: true },
       component: () => import('@/Pages/Auth/Seting.vue')
     },
+
+    //product pages here 
+
+    {
+      path: '/mobiles',
+      name: 'Mobile',
+      meta: { requiresAuth: true },
+      component: () => import('@/Pages/ProductsPage/Mobile.vue')
+    },
   ]
 });
 
