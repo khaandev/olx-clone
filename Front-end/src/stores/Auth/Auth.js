@@ -4,77 +4,74 @@ import { defineStore } from "pinia";
 
 export const useAuthStore = defineStore("Auth", () => {
   const isAuthenticated = ref(false);
-  const UserWrongeInfo = ref(null);
-  const registerSuccess = ref(false)
+  // const UserWrongeInfo = ref(null);
+  // const registerSuccess = ref(false);
   const userInfo = ref(null);
-  const AuthValidactionErrors = ref(null);
+  const Validation = ref(null);
 
-   // user Login handel
-   async function attemptLogin(data) {
+  // const AuthValidactionErrors = ref(null);
+
+  // user Login handel
+  async function attemptLogin(data) {
     try {
-      const res = await axios.post(`/api/login`, data);
-      isAuthenticated.value = true;
-      userInfo.value = res.data.data.user;
-      localStorage.setItem("token", res.data.data.token);
-      resetValidationsErrors()
+      await axios.get("http://localhost:8000/sanctum/csrf-cookie");
+      const res = await axios.post("http://localhost:8000/login", data);
+      
+        isAuthenticated.value = true;
+      userInfo.value = res.data;
     } catch (error) {
-      AuthValidactionErrors.value = error.response;
-    } finally {
-      UserWrongeInfo.value = "Something went wrong";
-    }
+      Validation.value = error.response;
+      // console.log(error.response.data.message);
+    } 
   }
   // user Login handel
   async function Register(data) {
     try {
-      const res = await axios.post(`/api/register`, data);
-      userInfo.value = res.data.data.user;
-      registerSuccess.value = res.data.success;
+      const res = await axios.post("http://localhost:8000/register", data);
+      userInfo.value = res.data;
 
-      resetValidationsErrors()
+      resetValidationsErrors();
     } catch (error) {
-      AuthValidactionErrors.value = error.response;
-    } finally {
-      UserWrongeInfo.value = "Something went wrong";
-    }
+      Validation.value = error.response;
+    } 
   }
 
   // user load in hardRefresh
   async function loadUser() {
     try {
-      const res = await axios.get(`/api/user`);
+      const res = await axios.get("http://localhost:8000/api/user");
       isAuthenticated.value = true;
-      userInfo.value = res.data.data.user;
+      userInfo.value = res.data;
     } catch (error) {
-      AuthValidactionErrors.value = error.response;
-    } finally {
-      UserWrongeInfo.value = "Something went wrong";
-    }
+      Validation.value = error.response;
+    } 
   }
 
   // logout user
   async function logout() {
     try {
-      await axios.post(`/api/logout`);
+      await axios.post("http://localhost:8000/api/logout");
       isAuthenticated.value = false;
       userInfo.value = null;
-      localStorage.removeItem("token");
     } catch (error) {
-      AuthValidactionErrors.value = error.response.data;
+      Validation.value = error.response;
     }
   }
   function resetValidationsErrors() {
-    AuthValidactionErrors.value = {}
+    Validation.value = {};
   }
 
   return {
     isAuthenticated,
-    userInfo,
-    AuthValidactionErrors,
+    // userInfo,
+    // AuthValidactionErrors,
     attemptLogin,
-    resetValidationsErrors,
+    userInfo,
+    Validation,
+    // resetValidationsErrors,
     loadUser,
     Register,
-    registerSuccess,
+    // registerSuccess,
     logout,
   };
 });

@@ -10,8 +10,8 @@ const auth = useAuthStore()
 
 
 const loginState = reactive({
-  email: "",
-  password: "",
+  email: "test@example.com",
+  password: "password",
 });
 const handleForm = async () => {
   const formData = {

@@ -4,44 +4,34 @@ import BaseInput from "../WebRelated/BaseInput.vue";
 import ButtonPrimary from "../WebRelated/ButtonPrimary.vue";
 const years = ref([]);
 import { useAuthStore } from "@/stores/Auth/Auth";
-const auth = useAuthStore()
+const auth = useAuthStore();
 for (let i = 2024; i > 2000; i--) {
   years.value.push(i);
 }
 
 const authInfo = reactive({
-  name:auth.userInfo?.name || '',
-  phone:auth.userInfo?.phone || '',
-  email:auth.userInfo?.email || '',
-  bio:auth.userInfo?.bio || '',
-  gender:auth.userInfo?.gender || '',
-  day:auth.userInfo?.day || '',
-  month:auth.userInfo?.month || '',
-  year:auth.userInfo?.year || '',
-
-
-
-})
+  name: auth.userInfo?.user.name || "",
+  phone: auth.userInfo?.user.phone || "",
+  email: auth.userInfo?.user.email || "",
+  bio: auth.userInfo?.user.bio || "",
+  gender: auth.userInfo?.user.gender || "",
+  dob: auth.userInfo?.user.dob || "",
+});
 const handleForm = () => {
-const formHandle  = reactive({
-  name:authInfo.name,
-  phone:authInfo.phone,
-  email:authInfo.email,
-  bio:authInfo.bio,
-  gender:authInfo.gender,
-  day:authInfo.day,
-  month:authInfo.month,
-  year:authInfo.year,
-
-})
-console.log(formHandle);
-
-}
+  const formHandle = reactive({
+    name: authInfo.name,
+    phone: authInfo.phone,
+    email: authInfo.email,
+    bio: authInfo.bio,
+    gender: authInfo.gender,
+    dob: authInfo.dob,
+  });
+  console.log(formHandle);
+};
 </script>
 <template>
- 
-<div class="px-40   my-10">
-  <div class="bg-gray-100 border border-gray-300 p-5 rounded-lg shadow-lg ">
+  <div class="px-40 my-10">
+    <div class="bg-gray-100 border border-gray-300 p-5 rounded-lg shadow-lg">
       <div>
         <h1 class="text-xl font-bold mb-5">Edit profile</h1>
         <h2 class="text-sm font-bold mb-3">Profile Photo</h2>
@@ -60,107 +50,46 @@ console.log(formHandle);
           </div>
         </div>
       </div>
-<form action="" @submit.prevent="handleForm">
 
-      <div class="grid grid-cols-2 mt-10 gap-3">
-        <div>
-          <BaseInput label="Name"  title="name" v-model="authInfo.name"/>
-          <h1 class="my-2">Date of birth</h1>
-          <div class="grid grid-cols-3 mt-2 gap-2">
-            <div>
-              <!-- <select
-              v-model="authInfo.day"
-                name=""
-                id=""
-                class="w-full p-2 bg-white border border-gray-400 rounded-md"
-              >     
+      <form action="" @submit.prevent="handleForm">
+     <div class="grid grid-cols-2 gap-5 mt-10">
 
-                <option value="" v-for="day in Array(31).keys()" :key="day">
-                  {{ day + 1 }}
-                </option>
-              </select> -->
-            <input type="text" v-model="authInfo.day">
-            </div>
-            <div>
-              <select
-              v-model="authInfo.month"
-                name=""
-                id=""
-                class="w-full p-2 bg-white border border-gray-400 rounded-md"
-              >
 
-                <option value="" v-for="month in Array(12).keys()" :key="month">
-                  {{ month + 1 }}
-                </option>
-              </select>
-            </div>
-            <div>
-              <select
-              v-model="authInfo.year"
-                name=""
-                id=""
-                class="w-full p-2 bg-white border border-gray-400 rounded-md"
-              >   
-              
-                <option value="" v-for="year in years" :key="year">
-                  {{ year }}
-                </option>
-              </select>
-            </div>
-          </div>
-          <div class="mt-5">
-            <select
-            v-model="authInfo.gender"
-              name=""
-              id=""
-              class="w-full p-2 bg-white border border-gray-400 rounded-md"
-            >
-             <option value="female">Female</option>
-              <option value="male">Male</option>
-            </select>
-          </div>
-          <div class="mt-5">
-            <textarea
-            v-model="authInfo.bio"
-              name=""
-              id=""
-              cols="30"
-              rows="5"
-              class="w-full border border-gray-500 py-2 px-3 rounded-md focus:outline-none focus:border-blue-500 resize-none"
-            ></textarea>
-          </div>
-        </div>
-        <div class="">
-        <div class="grid grid-cols-1 gap-3">
-          <div>
-            <BaseInput label="Phone" v-model="authInfo.phone" />
-          </div>
-          <div class="">
-            <p class="text-sm text-blue-800">
-              This is the number for buyers contacts, reminders, and other
-              notifications.
-            </p>
-          </div>
-          <div class="mt-6">
-            <BaseInput label="E-mail " v-model="authInfo.email"/>
-          </div>
-          <div>
-            <p class="text-sm text-blue-800 ">
-                We won't reveal your email to anyone else nor use it to send you spam
+      <BaseInput  type="text" title="name"  v-model="authInfo.name" />
+      <BaseInput  type="text"  title="email"  v-model="authInfo.email" />
+      <BaseInput type="date" title="dob" v-model="authInfo.dob" />
+      <BaseInput type="number" title="dob" v-model="authInfo.phone" />
+      <textarea
+          v-model="authInfo.bio"
+          name=""
+          id=""
+          cols="30"
+          rows="5"
+          class="w-full border border-gray-500 py-2 px-3 rounded-md focus:outline-none focus:border-blue-500 resize-none"
+        >
+      </textarea>
+      
+      <div>
+    <p class="text-lg my-2">Selected gender : <span class="text-blue-500"> {{ authInfo.gender }}</span> </p>
 
-            </p>
-          </div>
-        </div>
-      </div>
-      </div>
-
-     
-      <div class="bg-gray-200 p-3 flex justify-end rounded-md mt-5">
-        <ButtonPrimary text="Save Changes" />
+    <label>
+      <input type="radio" v-model="authInfo.gender" value="male" />
+      Male
+    </label>
+    <label>
+      <input type="radio" v-model="authInfo.gender" value="female" />
+      Female
+    </label>
 
       </div>
-</form>
+     </div>
+
+     <div class="bg-gray-200 p-3 flex justify-end rounded-md mt-5">
+    <ButtonPrimary text="Save Changes" />
+  </div>
+
+    </form>
 
     </div>
-</div>
+  </div>
 </template>
