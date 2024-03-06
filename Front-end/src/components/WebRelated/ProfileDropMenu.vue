@@ -3,13 +3,13 @@ import { ref } from "vue";
 import router from "@/router/index.js";
 import { useAuthStore } from "@/stores/Auth/Auth";
 
-const auth = useAuthStore()
+const auth = useAuthStore();
 const dropDown = ref([
   {
     id: 1,
     text: "Your Profile",
     icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-  <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" clip-rule="evenodd" /></svg>`,
+        <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" clip-rule="evenodd" /></svg>`,
     path: "/profile/info",
     Active: false,
   },
@@ -53,11 +53,11 @@ const navigateTo = (path) => {
 };
 
 const logoutAuth = async () => {
- await  auth.logout()
- if (!auth.isAuthenticated) {
+  await auth.logout();
+  if (!auth.isAuthenticated) {
     router.push({ name: "Login" });
   }
-}
+};
 </script>
 
 <template>
@@ -66,7 +66,7 @@ const logoutAuth = async () => {
   >
     <div class="my-2">
       <p class="font-mono text-left">Hello.</p>
-      <h1 class="text-md font-bold text-left"> {{ auth.userInfo.name }}</h1>
+      <h1 class="text-md font-bold text-left">{{ auth.userInfo.user.name }}</h1>
     </div>
     <hr />
     <ul class="my-3">
@@ -74,7 +74,8 @@ const logoutAuth = async () => {
         v-for="item in dropDown"
         :key="item.id"
         @click="navigateTo(item.path)"
-        class="text-left mt-1 bg-gray-100 rounded-md p-2 font-serif border border-gray-400 hover:bg-gray-200"
+        class="text-left mt-1 bg-gray-100 rounded-md p-2 border border-gray-400 hover:bg-gray-200"
+        id="font"
       >
         <div class="flex">
           <component
@@ -88,27 +89,26 @@ const logoutAuth = async () => {
       </li>
     </ul>
     <div>
-      <hr>
+      <hr />
 
-      <button @click="logoutAuth"  class="text-left w-full flex gap-2 mt-2 bg-gray-100 rounded-md p-2 font-serif border border-gray-400">
-        <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="currentColor"
-        class="w-6 h-6"
+      <button
+        @click="logoutAuth"
+        class="text-left w-full flex gap-2 mt-2 bg-gray-100 rounded-md p-2 font-serif border border-gray-400"
       >
-        <path
-          fill-rule="evenodd"
-          d="M12 2.25a.75.75 0 0 1 .75.75v9a.75.75 0 0 1-1.5 0V3a.75.75 0 0 1 .75-.75ZM6.166 5.106a.75.75 0 0 1 0 1.06 8.25 8.25 0 1 0 11.668 0 .75.75 0 1 1 1.06-1.06c3.808 3.807 3.808 9.98 0 13.788-3.807 3.808-9.98 3.808-13.788 0-3.808-3.807-3.808-9.98 0-13.788a.75.75 0 0 1 1.06 0Z"
-          clip-rule="evenodd"
-        />
-      </svg>
-      Logout
-      
-    </button>
-
-
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="w-6 h-6"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M12 2.25a.75.75 0 0 1 .75.75v9a.75.75 0 0 1-1.5 0V3a.75.75 0 0 1 .75-.75ZM6.166 5.106a.75.75 0 0 1 0 1.06 8.25 8.25 0 1 0 11.668 0 .75.75 0 1 1 1.06-1.06c3.808 3.807 3.808 9.98 0 13.788-3.807 3.808-9.98 3.808-13.788 0-3.808-3.807-3.808-9.98 0-13.788a.75.75 0 0 1 1.06 0Z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        Logout
+      </button>
     </div>
-  
   </div>
 </template>

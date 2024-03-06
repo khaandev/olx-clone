@@ -8,7 +8,7 @@ import NavBar from "@/components/WebRelated/NavBar.vue";
   <NavBar />
   <div class="mx-10">
     <h1 class="text-4xl mb-10" id="font">
-      Find Your Dream <span class="text-pink-500">Mobile </span> in Low budget
+      Find Your Dream <span class="text-pink-500">Cars </span> in Low budget
     </h1>
 
 

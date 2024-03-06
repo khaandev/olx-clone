@@ -1,6 +1,6 @@
 <script setup>
 import BaseInput from "@/components/WebRelated/BaseInput.vue";
-import FormCard from "@/Pages/FormLayout.vue/FormCard.vue";
+import RegisterFormCard  from "@/Pages/FormLayout.vue/RegisterFormCard .vue";
 import ButtonPrimary from "@/components/WebRelated/ButtonPrimary.vue";
 
 import { reactive, ref } from "vue";
@@ -39,7 +39,7 @@ const handleForm = async () => {
 };
 </script>
 <template>
-  <FormCard>
+  <RegisterFormCard >
     <form action="" @submit.prevent="handleForm">
        <div class="grid grid-cols-12 gap-3">
         <div class="col-span-6">
@@ -134,5 +134,5 @@ const handleForm = async () => {
      </div>
       </div>
     </form>
-  </FormCard>
+  </RegisterFormCard >
 </template>

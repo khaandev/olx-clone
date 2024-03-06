@@ -4,26 +4,26 @@ const loginGoogle = async () => {
 };
 </script>
 <template>
-  <div class="bg-gray-200 py-9">
+  <div class="bg-gray-200 min-h-full 	">
     <div class="flex flex-col items-center justify-center">
-      <div class="bg-white shadow rounded w-[40%] p-5">
+      <div class="bg-white shadow rounded w-[40%] p-5  my-10">
         <p
           tabindex="0"
           class="focus:outline-none text-2xl font-extrabold leading-6 text-gray-800"
         >
-          Login to your account
+          Create  your account
         </p>
         <p
           tabindex="0"
           class="focus:outline-none text-sm mt-4 font-medium leading-none text-gray-500"
         >
-          Dont have account?
-          <RouterLink :to="{name: 'Register'}"
+          i have already account 
+          <RouterLink :to="{name: 'Login'}"
             class="hover:text-gray-500 focus:text-gray-500 focus:outline-none focus:underline hover:underline text-sm font-medium leading-none text-gray-800 cursor-pointer"
           >
-            Sign up here</RouterLink>
+          <span class="text-blue-500"> Login  here</span>   </RouterLink>
         </p>
-        <!-- <button
+        <button
           @click="loginGoogle"
           aria-label="Continue with google"
           role="button"
@@ -56,7 +56,7 @@ const loginGoogle = async () => {
           <p class="text-base font-medium ml-4 text-gray-700">
             Continue with Google
           </p>
-        </button> -->
+        </button>
 
         <div class="w-full flex items-center justify-between py-5">
           <hr class="w-full bg-gray-400" />

@@ -1,6 +1,6 @@
 <script setup>
 import BaseInput from "@/components/WebRelated/BaseInput.vue";
-import FormCard from "@/Pages/FormLayout.vue/FormCard.vue";
+import LoginFormCard from "@/Pages/FormLayout.vue/LoginFormCard.vue";
 import ButtonPrimary from "@/components/WebRelated/ButtonPrimary.vue";
 import { reactive } from "vue";
 import { useAuthStore } from "@/stores/Auth/Auth";
@@ -26,7 +26,7 @@ const handleForm = async () => {
 };
 </script>
 <template>
-  <FormCard>
+  <LoginFormCard>
     <form action="" @submit.prevent="handleForm">
       <div>
         <BaseInput
@@ -50,5 +50,5 @@ const handleForm = async () => {
         <ButtonPrimary text="Login" />
       </div>
     </form>
-  </FormCard>
+  </LoginFormCard>
 </template>

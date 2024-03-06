@@ -36,10 +36,10 @@ const cardProduct = ref([
 
 <template>
   <div>
-    <h1 class="text-2xl font-bold">More in Vehicles</h1>
+    <h1 class="text-2xl font-bold"><RouterLink :to="{name: 'Cars'}"><span class="cursor-pointer">More in Vehicles</span> </RouterLink> </h1>
   </div>
 
-  <div class="grid grid-cols-4 my-10 gap-3">
+  <div class="grid grid-cols-4 my-5 gap-3">
     <div v-for="cardtItem in cardProduct" :key="cardtItem.id">
       
       <div class="border border-gray-300 rounded">

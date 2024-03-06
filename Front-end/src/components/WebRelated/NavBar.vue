@@ -17,68 +17,59 @@ const secoundMenuLink = ref([
     id: 1,
     name: "Mobiles",
     path: "/mobiles",
-    Active: false,
+    Active: window.location.pathname === "/mobiles",
   },
-  // {
-  //   id: 2,
-  //   name: "Cars",
-  //   path: "/",
-  //   Active: false,
-  // },
-  // {
-  //   id: 3,
-  //   name: "Property",
-  //   path: "/",
-  //   Active: false,
-  // },
-  // {
-  //   id: 4,
-  //   name: "Property For Rent",
-  //   path: "/",
-  //   Active: false,
-  // },
-  // {
-  //   id: 5,
-  //   name: "Bikes",
-  //   path: "/",
-  //   Active: false,
-  // },
-  // {
-  //   id: 6,
-  //   name: "Animals",
-  //   path: "/",
-  //   Active: false,
-  // },
+  {
+    id: 2,
+    name: "Cars",
+    path: "/cars",
+    Active: window.location.pathname === "/cars",
+  },
+  {
+    id: 3,
+    name: "Propertys",
+    path: "/property",
+    Active: window.location.pathname === "/property",
+  },
+  {
+    id: 4,
+    name: "Electronics",
+    path: "/electronic",
+    Active: window.location.pathname === "/electronic",
+  },
+  {
+    id: 5,
+    name: "Bikes",
+    path: "/bikes",
+    Active: window.location.pathname === "/bikes",
+  },
+  {
+    id: 6,
+    name: "Animals",
+    path: "/animals",
+    Active: window.location.pathname === "/animals",
+  },
 ]);
 
-
-
-
 const navigateTo = (path) => {
-  secoundMenuLink.value.forEach((item) => {
-    item.Active = item.path === path;
-  });
-
   router.push(path);
 };
 const menuItem = ref(false);
-
-
 </script>
 
 <template>
-  <div class="bg-gray-100 p-10 drop-shadow-md">
+  <div
+    class="sticky top-0 bg-gray-100 py-5 bg-opacity-70 shadow-md px-10 backdrop-blur-md z-50"
+  >
     <div class="grid grid-cols-12 gap-3">
       <div class="col-span-1 my-auto">
-        <RouterLink :to="{path: '/'}" >
-
-        <img
-          src="https://logos-world.net/wp-content/uploads/2022/04/OLX-Symbol.png"
-          alt=""
-          class="w-[100px]"
-        />
-      </RouterLink>
-
+        <RouterLink :to="{ path: '/' }">
+          <img
+            src="https://logos-world.net/wp-content/uploads/2022/04/OLX-Symbol.png"
+            alt=""
+            class="w-[100px]"
+          />
+        </RouterLink>
       </div>
       <div class="col-span-4 my-auto">
         <label for="name" class="text-gray-600 hover:cursor-pointer">
@@ -90,8 +81,7 @@ const menuItem = ref(false);
             :searchable="true"
             placeholder="Select Your Location"
             class="focus:border-blue-500 focus:outline-none"
-            style="transition: border-color 0.3s ease-in-out;"
-
+            style="transition: border-color 0.3s ease-in-out"
           >
           </multiselect>
         </label>
@@ -102,7 +92,7 @@ const menuItem = ref(false);
           id="searchInput"
           placeholder="Find Cars, Mobiles, And More.."
           class="w-full border border-gray-300 py-2 px-3 focus:outline-none focus:border-blue-500"
-          style="transition: border-color 0.3s ease-in-out;"
+          style="transition: border-color 0.3s ease-in-out"
         />
         <button
           id="btn"
@@ -129,23 +119,25 @@ const menuItem = ref(false);
         }`"
       >
         <div class="my-auto" v-if="auth.isAuthenticated">
-          <button
-            class="bg-gray-500 flex gap-1 hover:bg-gray-600 text-white font-semibold rounded-md py-2 px-4"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              class="w-6 h-6"
+          <RouterLink :to="{ name: 'SellProduct' }">
+            <button
+              class="bg-gray-500 flex gap-1 hover:bg-gray-600 text-white font-semibold rounded-md py-2 px-4"
             >
-              <path
-                fill-rule="evenodd"
-                d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            Sell
-          </button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              Sell
+            </button>
+          </RouterLink>
         </div>
 
         <div v-if="!auth.isAuthenticated">
@@ -154,8 +146,8 @@ const menuItem = ref(false);
               class="bg-blue-500 flex gap-2 hover:bg-blue-60 text-white font-semibold rounded-md py-2 px-4"
             >
               Login
-            </button>
-          </RouterLink>
+            </button> </RouterLink
+          >
         </div>
 
         <div v-if="!auth.isAuthenticated">
@@ -215,23 +207,28 @@ const menuItem = ref(false);
   <!-- secound nav bar -->
   <div class="my-5 text-gray-600" id="font">
     <ul class="flex gap-5 mx-10">
-      <li v-for="navLikn in secoundMenuLink" :key="navLikn" @click="navigateTo(navLikn.path)"
-      class=" cursor-pointer" 
-       :class="{ 'text-blue-500': navLikn.Active }">
-    {{ navLikn.name }}
-  </li>
+      <li
+        v-for="navLink in secoundMenuLink"
+        :key="navLink"
+        @click="navigateTo(navLink.path)"
+        class="cursor-pointer"
+        :class="{ 'text-blue-500': navLink.Active }"
+      >
+        {{ navLink.name }}
+      </li>
     </ul>
   </div>
 </template>
+
 <style scoped>
 #font {
   font-family: "Inter", sans-serif;
   font-weight: 600;
 }
-#searchInput{
+#searchInput {
   border-radius: 5px 0px 0px 5px;
 }
-#btn{
+#btn {
   border-radius: 0px 5px 5px 0px;
 }
 </style>
