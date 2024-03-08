@@ -1,8 +1,11 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import axios from "axios";
+import axios from "@/http/Axios";
 export const useCategoryStore = defineStore("category", () => {
   const categories = ref([]);
+
+
+
   const validationErrors = ref(null);
 
   async function getCategories() {
@@ -14,6 +17,7 @@ export const useCategoryStore = defineStore("category", () => {
     }
   }
 
+ 
   return {
     getCategories,
     categories,

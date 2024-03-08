@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,17 +17,24 @@ use App\Http\Controllers\CategoryController;
 |
 */
 
-// Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', [AuthenticatedSessionController::class, 'getUser']);
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
     Route::put('/user/{user}', [AuthenticatedSessionController::class, 'update'])->name('user.update');
 
+        Route::get('/category', [CategoryController::class, 'index']);
+        Route::get('/products', [ProductController::class, 'index']);
+        Route::post('/product', [ProductController::class, 'store']);
+        Route::get('/product/{user}', [ProductController::class, 'show']);
+
+
 
 });
 
 
-Route::get('/category', [CategoryController::class, 'index']);
+
+
+
+
