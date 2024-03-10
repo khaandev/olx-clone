@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductRequest;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -17,8 +19,10 @@ class ProductController extends Controller
 
         $products = Product::query()
          ->whereHas('category', function($q) {
-        $q->where('name', request('category'));})
-        ->with('category')->get();
+        $q->where('name', 
+        request('category'));})
+        ->with('category')
+        ->with('user')->get();
 
     return response()->json([
         'products' => $products,
@@ -33,55 +37,51 @@ class ProductController extends Controller
    
 //    
     }
+
     public function store(ProductRequest $request)
     {
         $images = [];
-
-        if ($request->hasFile('images')) {
-            $uploadedImages = $request->file('images');
-
-            foreach ($uploadedImages as $uploadedImage) {
-                $name = time() . '_' . $uploadedImage->getClientOriginalName();
-                $uploadedImage->move(storage_path('app/public/uploads'), $name);
-                $images[] = asset('storage/uploads/' . $name);
-            }
+    
+        foreach ($request->file('images', []) as $uploadedImage) {
+            $name = time() . '_' . $uploadedImage->getClientOriginalName();
+            $uploadedImage->move(storage_path('app/public/uploads'), $name);
+            $images[] = asset('storage/uploads/' . $name);
         }
-
+    
+        $user = auth()->user();
         $category = Category::find($request->category_id);
-
-        if (!$category) {
+    
+        if (!$user || !$category) {
             return response()->json([
-                'message' => 'Category not found',
+                'message' => 'User or Category not found',
             ], 404);
         }
-
+    
         $product = $category->products()->create([
+            'user_id' => $user->id,
             'location' => $request->location,
             'title' => $request->title,
             'price' => $request->price,
             'description' => $request->description,
             'images' => $images,
-        ]);
-
-        $productWithCategory = $product->load('category');
-
-        $productWithCategory->images = is_array($productWithCategory->images)
-        ? $productWithCategory->images
-        : json_decode($productWithCategory->images);
-
+        ])->load('category', 'user');
+    
+        $product->images = is_array($product->images)
+            ? $product->images
+            : json_decode($product->images);
+    
         return response()->json([
             'message' => 'Product added successfully',
-            'product' => $productWithCategory,
+            'product' => $product,
         ], 200);
     }
-
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
       
-    $product = Product::with('category')->find($id);
+    $product = Product::with('category')->with('user')->find($id);
 
     if (!$product) {
         return response()->json([

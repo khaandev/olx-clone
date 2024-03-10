@@ -72,7 +72,7 @@ const getGridColumnsClass = (imageCount) => {
                 alt=""
                 class="w-[50px]"
               />
-              <h2 class="my-auto">Name :</h2>
+              <h2 class="my-auto">  Name : <span class="text-blue-500"> {{productItem.user.name}} </span> </h2>
             </div>
             <div class="border mt-5 p-2">
               <h2 class="my-auto mb-2">
