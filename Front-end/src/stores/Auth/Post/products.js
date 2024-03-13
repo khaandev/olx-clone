@@ -11,7 +11,7 @@ export const useProductStore = defineStore("product", () => {
 
 
 
-  async function getProducts(category) {
+  async function indexProduct(category) {
     try {
       isLoading.value = true;
       const response = await axios.get(
@@ -24,7 +24,7 @@ export const useProductStore = defineStore("product", () => {
     }
   }
 
-  async function addProduct(data) {
+  async function storeProduct(data) {
     try {
       isLoading.value = true;
       const response = await axios.post(
@@ -45,7 +45,7 @@ export const useProductStore = defineStore("product", () => {
     }
   }
 
-  async function productInfo(id) {
+  async function showProduct(id) {
     try {
       isLoading.value = true;
         const response = await axios.get(
@@ -105,14 +105,14 @@ export const useProductStore = defineStore("product", () => {
     updateProduct,
     isMessage,
     resetValidationsErrors,
-    addProduct,
+    storeProduct,
     deleteProduct,
     product,
     pushProducat,
-    getProducts,
+    showProduct,
+    indexProduct,
     products,
     validation,
     category,
-    productInfo,
   };
 });

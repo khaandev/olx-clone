@@ -19,7 +19,7 @@ const favorite = useFavoriteStore();
 const auth = useAuthStore();
 const isModalOpen = ref(false)
 const openEmail = () => {
-  const emailAddress = product.product.product.user.email;
+  const emailAddress = product.product.user.email;
   const subject = "Subject of the email";
   const mailtoLink = `mailto:${emailAddress}?subject=${encodeURIComponent(
     subject
@@ -65,7 +65,7 @@ const deleteBtn = async () => {
 }
 
 onMounted(() => {
-  category.getCategories();
+  category.indexCategory();
   const route = useRoute();
   const productId = route.params.id;
   product.productInfo(productId);

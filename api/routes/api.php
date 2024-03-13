@@ -24,17 +24,25 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', [AuthenticatedSessionController::class, 'getUser']);
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
     Route::put('/user/{user}', [AuthenticatedSessionController::class, 'update'])->name('user.update');
-        Route::get('/category', [CategoryController::class, 'index']);
+
+        // products 
         Route::get('/products', [ProductController::class, 'index']);
         Route::post('/product', [ProductController::class, 'store']);
         Route::get('/product/{user}', [ProductController::class, 'show']);
         Route::put('/product/{user}', [ProductController::class, 'update']);
         Route::delete('/product/{user}', [ProductController::class, 'destroy']);
 
+        //product favorites
         Route::get('/get/favorites', [FavoriteController::class, 'index']);
         Route::post('/favorite/{product}', [FavoriteController::class, 'store']);
 
-        
+        //admin can access
+        Route::get('/category', [CategoryController::class, 'index']);
+        Route::get('/category/{user}', [CategoryController::class, 'show']);
+        Route::get('/category/{user}', [CategoryController::class, 'update']);
+        Route::get('/category/{user}', [CategoryController::class, 'destroy']);
+
+
 
 
 

@@ -1,20 +1,15 @@
 <script setup>
 import NavBar from "@/components/WebRelated/NavBar.vue";
 import { useProductStore } from "@/stores/Auth/Post/products";
-import ProductDetailes from "./ProductDetailes.vue";
 import { onMounted, ref } from "vue";
 const product = useProductStore();
-const isModalOpen = ref(false);
 
 
 onMounted(() => {
-  product.getProducts("Mobile");
+  product.indexProduct("Mobile");
 });
 
-// const btnClick = async (id) => {
-//   router.push({ path: `/product/detailes/${id}` });
-//   await product.productInfo(id);
-// };
+
 
 </script>
 

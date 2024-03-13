@@ -17,37 +17,37 @@ const secoundMenuLink = ref([
     id: 1,
     name: "Mobiles",
     path: "/mobiles",
-    Active: window.location.pathname === "/mobiles",
+    active: window.location.pathname === "/mobiles",
   },
   {
     id: 2,
     name: "Cars",
     path: "/cars",
-    Active: window.location.pathname === "/cars",
+    active: window.location.pathname === "/cars",
   },
   {
     id: 3,
     name: "Propertys",
     path: "/property",
-    Active: window.location.pathname === "/property",
+    active: window.location.pathname === "/property",
   },
   {
     id: 4,
     name: "Electronics",
     path: "/electronic",
-    Active: window.location.pathname === "/electronic",
+    active: window.location.pathname === "/electronic",
   },
   {
     id: 5,
     name: "Bikes",
     path: "/bikes",
-    Active: window.location.pathname === "/bikes",
+    active: window.location.pathname === "/bikes",
   },
   {
     id: 6,
     name: "Animals",
     path: "/animals",
-    Active: window.location.pathname === "/animals",
+    active: window.location.pathname === "/animals",
   },
 ]);
 
@@ -212,7 +212,7 @@ const menuItem = ref(false);
         :key="navLink"
         @click="navigateTo(navLink.path)"
         class="cursor-pointer"
-        :class="{ 'text-blue-500': navLink.Active }"
+        :class="{ 'text-blue-500': navLink.active }"
       >
         {{ navLink.name }}
       </li>

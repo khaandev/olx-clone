@@ -34,7 +34,18 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        
+        $request->validate([
+            'name' => 'required|string|unique:categories,name'
+        ]);
+
+        $category = Category::create([
+            'name' => $request->name
+        ]);
+
+        return response()->json([
+            'message' => 'Category created successfully',
+             $category
+        ]);
     }
 
     /**
@@ -42,8 +53,9 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
-        //
-    }
+        $category = Category::findOrFail($id);
+        return response()->json($category); 
+       }
 
     /**
      * Show the form for editing the specified resource.
@@ -58,14 +70,32 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
-    }
+        $request->validate([
+            'name' => 'required|string|unique:categories,name,' . $id
+        ]);
+
+        $category = Category::findOrFail($id);
+
+        $category->update([
+            'name' => $request->name
+        ]);
+
+        return response()->json([
+            'message' => 'Category updated successfully',
+             $category
+        ]);  
+      }
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        $category = Category::findOrFail($id);
+        $category->delete();
+        return response()->json(
+           [ 'message' => 'Category deleted successfully']
+        );
+
     }
 }

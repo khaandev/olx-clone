@@ -92,6 +92,21 @@ const router = createRouter({
       meta: { requiresAuth: true },
       component: () => import('@/Pages/ProductsPage/ProductDetailes.vue')
     },
+
+    //admin pages
+
+    {
+      path: '/dashboard',
+      name: 'Dashboard',
+      meta: { requiresAuth: true },
+      component: () => import('@/Pages/Admin/Dashboard.vue')
+    },
+    {
+      path: '/category',
+      name: 'Category',
+      meta: { requiresAuth: true },
+      component: () => import('@/Pages/Admin/Category.vue')
+    },
   ]
 });
 

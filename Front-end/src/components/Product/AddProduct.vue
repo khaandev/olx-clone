@@ -24,7 +24,7 @@ const productState = reactive({
 });
 
 onMounted(() => {
-  category.getCategories();
+  category.indexCategory();
 });
 const ImagesChange = async (event) => {
   const files = event.target.files;

@@ -8,11 +8,11 @@ const isModalOpen = ref(false)
 
 
 onMounted(() => {
-  product.getProducts("Car");
+  product.indexProduct("Car");
 });
 const btnClick = async (id) => {
   isModalOpen.value = true
-  await product.productInfo(id);
+  await product.showProduct(id);
 
 }
  
