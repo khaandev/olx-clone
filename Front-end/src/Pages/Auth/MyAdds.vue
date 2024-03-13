@@ -1,8 +1,8 @@
 <script setup>
-
+import NavBar from '@/components/WebRelated/NavBar.vue';
 </script>
 
 <template>
 
-    <h1>my adds</h1>
+<NavBar />
 </template>

@@ -81,13 +81,13 @@ const router = createRouter({
       component: () => import('@/Pages/ProductsPage/Cars.vue')
     },
     {
-      path: '/post',
+      path: '/add/product',
       name: 'SellProduct',
       meta: { requiresAuth: true },
       component: () => import('@/Pages/ProductsPage/SellProduct.vue')
     },
     {
-      path: '/product/detailes',
+      path: '/product/detailes/:id',
       name: 'ProductDetailes',
       meta: { requiresAuth: true },
       component: () => import('@/Pages/ProductsPage/ProductDetailes.vue')

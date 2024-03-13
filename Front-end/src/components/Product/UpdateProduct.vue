@@ -6,26 +6,36 @@ import multiselect from "@vueform/multiselect";
 import { onMounted, reactive, ref } from "vue";
 import ButtonPrimary from "../WebRelated/ButtonPrimary.vue";
 import { useProductStore } from "@/stores/Auth/Post/products";
-import router from "@/router";
+import PopUpLayout from "@/Layouts/PopUpLayout.vue";
+
+import { defineProps,defineEmits } from "vue";
+
+const props = defineProps({
+  selectedId: Number ,
+});
+const emit = defineEmits(['modalCancel'])
+
+const cancelModal =  () => {
+emit('modalCancel');
+}
+
+
 const product = useProductStore();
 const { isLoading } = useProductStore();
-
 const state = useCommonStore();
 const category = useCategoryStore();
 
 const selectedImages = ref([]);
 
 const productState = reactive({
-  category: "",
-  location: "",
-  title: "",
-  price: "",
-  description: "",
+  category: product.product?.category?.id,
+  location:  product.product?.location,
+  title: product.product?.title,
+  price: product.product?.price,
+  description:product.product?.description,
 });
 
-onMounted(() => {
-  category.getCategories();
-});
+
 const ImagesChange = async (event) => {
   const files = event.target.files;
   selectedImages.value = Array.from(files);
@@ -38,30 +48,38 @@ const handleSubmit = async () => {
   formData.append("title", productState.title);
   formData.append("price", productState.price);
   formData.append("description", productState.description);
+  formData.append('_method', 'PUT');
+
 
   for (const file of selectedImages.value) {
     formData.append("images[]", file);
   }
 
-  await product.addProduct(formData);
+  await product.updateProduct(props.selectedId,formData);
 
-  if(product.isMessage){
-    router.push({name: 'MyAdds'})
-  }
+
 };
+
+  
 </script>
 
 <template>
+
+    <PopUpLayout>
+
   <div class="flex justify-center">
-    <div class="w-[50%] my-10 bg-gray-100 p-5 rounded-md">
+    <div class=" rounded-md">
+        <div >
+            <button class="bg-red-500 px-5 py-1 text-white" @click="cancelModal">x</button>
+        </div>
       <form
         action=""
         @submit.prevent="handleSubmit"
         enctype="multipart/form-data"
+        class="m-5"
       >
         <div class="grid grid-cols-12 gap-3">
           <label for="cat" class="col-span-6">
-            <span class="text-gray-600">Select Your Category</span>
 
             <multiselect
               v-model="productState.category"
@@ -70,13 +88,12 @@ const handleSubmit = async () => {
               id="cat"
               label="name"
               :searchable="true"
-              placeholder="Select Your Location"
+              placeholder="Select Your Category"
             >
             </multiselect>
           </label>
 
           <label for="loc" class="col-span-6">
-            <span class="text-gray-600">Select Your Location</span>
 
             <multiselect
               v-model="productState.location"
@@ -127,4 +144,6 @@ const handleSubmit = async () => {
       </form>
     </div>
   </div>
+</PopUpLayout>
+
 </template>

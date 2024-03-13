@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+
 class ProductController extends Controller
 {
     /**
@@ -24,9 +25,9 @@ class ProductController extends Controller
         ->with('category')
         ->with('user')->get();
 
-    return response()->json([
-        'products' => $products,
-    ], 200);
+    return response()->json(
+        $products
+    );
     }
 
     /**
@@ -72,8 +73,8 @@ class ProductController extends Controller
     
         return response()->json([
             'message' => 'Product added successfully',
-            'product' => $product,
-        ], 200);
+             $product
+        ]);
     }
     /**
      * Display the specified resource.
@@ -81,7 +82,7 @@ class ProductController extends Controller
     public function show(string $id)
     {
       
-    $product = Product::with('category')->with('user')->find($id);
+    $product = Product::with(['category', 'user'])->find($id);
 
     if (!$product) {
         return response()->json([
@@ -93,9 +94,9 @@ class ProductController extends Controller
         ? $product->images
         : json_decode($product->images);
 
-    return response()->json([
-        'product' => $product,
-    ], 200);
+    return response()->json(
+        $product
+    );
     }
 
     /**
@@ -109,16 +110,73 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
+   /**
+ * Update the specified resource in storage.
+ */
+public function update(ProductRequest $request, string $id)
+{
+  
+
+    $product = Product::findOrFail($id);
+    
+    $user = auth()->user();
+    if ($user->id !== $product->user_id) {
+        return response()->json([
+            'message' => 'Unauthorized. You are not the owner of this product.',
+        ], 403);
     }
+
+    $images = [];
+    if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $uploadedImage) {
+            $name = time() . '_' . $uploadedImage->getClientOriginalName();
+            $uploadedImage->move(storage_path('app/public/uploads'), $name);
+            $images[] = asset('storage/uploads/' . $name);
+        }
+    }
+
+    $product->update([
+        'location' => $request->location ?? $product->location,
+        'title' => $request->title ?? $product->title,
+        'price' => $request->price ?? $product->price,
+        'description' => $request->description ?? $product->description,
+        'images' => count($images) > 0 ? $images : $product->images,
+    ]);
+
+    $product->refresh();
+
+    $product->images = is_array($product->images)
+        ? $product->images
+        : json_decode($product->images);
+
+    return response()->json([
+        'message' => 'Product updated successfully',
+        $product
+    ]);
+}
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
-    {
-        //
+{
+    // Find the product by ID
+    $product = Product::findOrFail($id);
+   
+    $user = auth()->user();
+    if ($user->id !== $product->user_id) {
+        return response()->json([
+            'message' => 'Unauthorized. You are not the owner of this product.',
+        ], 403);
     }
+
+    // Delete the product
+    $product->delete();
+
+    return response()->json([
+        'message' => 'Product deleted successfully',
+    ], 200);
+}
+
 }

@@ -74,11 +74,11 @@ const handleForm  = async () => {
     <p class="text-lg my-2">Selected gender : <span class="text-blue-500"> {{ authInfo.gender }}</span> </p>
 
     <label>
-      <input type="radio" v-model="authInfo.gender" value="male" />
+      <input type="radio" v-model="authInfo.gender" value="Male" />
       Male
     </label>
     <label>
-      <input type="radio" v-model="authInfo.gender" value="female" />
+      <input type="radio" v-model="authInfo.gender" value="Female" />
       Female
     </label>
 

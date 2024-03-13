@@ -1,29 +1,34 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Category;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 
-class CategoryController extends Controller
+use App\Models\Favorite;
+use App\Models\Product;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+
+class FavoriteController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-       
-        $categories = Category::all(); 
 
+
+        $user_id = Auth::id();
+        $fav = Favorite::where('user_id', $user_id)->with('product')->get();
         return response()->json([
-            'categories' => $categories, 
+            'Favorites' => $fav,
         ], 200);
-    
     }
 
     /**
      * Show the form for creating a new resource.
      */
+
+
     public function create()
     {
         //
@@ -32,9 +37,24 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Product $product)
     {
-        
+
+        if ($product->is_favorite) {
+            auth()->user()->favorites()->where('product_id', $product->id)->delete();
+
+            return response()->json([
+                'product' => Product::with(['category', 'user'])->find($product->id)
+            ]);
+        }
+
+        $product->favorites()->create([
+            'user_id' => auth()->id(),
+        ]);
+
+        return response()->json([
+            'product' => Product::with(['category', 'user'])->find($product->id)
+        ]);
     }
 
     /**
