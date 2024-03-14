@@ -3,7 +3,8 @@ import { useCategoryStore } from "@/stores/Auth/Post/category";
 import { useCommonStore } from "@/stores/WebRelated/coman";
 import BaseInput from "@/components/WebRelated/BaseInput.vue";
 import multiselect from "@vueform/multiselect";
-import { onMounted, reactive, ref } from "vue";
+import { reactive, ref } from "vue";
+import router from "@/router/index.js";
 import ButtonPrimary from "../WebRelated/ButtonPrimary.vue";
 import { useProductStore } from "@/stores/Auth/Post/products";
 import PopUpLayout from "@/Layouts/PopUpLayout.vue";
@@ -18,6 +19,8 @@ const emit = defineEmits(['modalCancel'])
 const cancelModal =  () => {
 emit('modalCancel');
 }
+
+
 
 
 const product = useProductStore();
@@ -56,7 +59,11 @@ const handleSubmit = async () => {
   }
 
   await product.updateProduct(props.selectedId,formData);
-
+  if(product.isMessage)
+  {
+    emit('modalupdate');
+    router.go(-1);
+  }
 
 };
 

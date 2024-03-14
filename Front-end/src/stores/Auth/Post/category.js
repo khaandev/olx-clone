@@ -5,6 +5,8 @@ export const useCategoryStore = defineStore("category", () => {
   const categories = ref([]);
   const category = ref(null);
   const validation = ref(null);
+  const isMessage = ref(null);
+
 
   async function indexCategory() {
     try {
@@ -19,10 +21,11 @@ export const useCategoryStore = defineStore("category", () => {
     try {
       const res = await axios.post(`/api/category`,data)
       category.value = res.data;
+      isMessage.value = res.data.message;
       pushClasse(response.data)
       resetValidationsErrors()
-    } catch {
-      (error)
+    } catch(error) {
+      
       validation.value = error.response;
     }
   }
@@ -38,7 +41,6 @@ export const useCategoryStore = defineStore("category", () => {
     try {
       const res = await axios.post(`/api/category/${id}`,data)
       category.value = res.data;
-      updateCategoryPush(res.data);
 
     } catch(error) {
       validation.value = error.response;
@@ -70,6 +72,7 @@ export const useCategoryStore = defineStore("category", () => {
     indexCategory,
     storeCategory,
     updateCategory,
+    isMessage,
     deleteCategory,
     showCategory,
     categories,

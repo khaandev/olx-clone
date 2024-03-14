@@ -32,7 +32,7 @@ export const useProductStore = defineStore("product", () => {
       product.value = response.data;
       isMessage.value = response.data.message
       isLoading.value = false;
-      pushClasse(response.data)
+      craeteProducat(response.data)
       resetValidationsErrors()
 
     } catch (error) {
@@ -63,12 +63,12 @@ export const useProductStore = defineStore("product", () => {
       isLoading.value = true;
       const response = await axios.post(
         `/api/product/${id}`, data);
-      const productItem = [...products.value]
-      const index = productItem.findIndex((ProductItem) => ProductItem.id == response.data.id)
-      productItem.splice(index, 1, response.data)
-      product.value = productItem
+
+      product.value = response.data;
+      isMessage.value = response.data.message;
       isLoading.value = false;
 
+      
       resetValidationsErrors()
     } catch (error) {
       validation.value = error.response;
@@ -96,7 +96,7 @@ export const useProductStore = defineStore("product", () => {
     validation.value = {}
   }
 
-  function pushProducat(newProduct) {
+  function craeteProducat(newProduct) {
     products.value.push(newProduct)
   }
 
@@ -108,7 +108,7 @@ export const useProductStore = defineStore("product", () => {
     storeProduct,
     deleteProduct,
     product,
-    pushProducat,
+    craeteProducat,
     showProduct,
     indexProduct,
     products,

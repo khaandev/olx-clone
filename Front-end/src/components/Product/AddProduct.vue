@@ -43,7 +43,7 @@ const handleSubmit = async () => {
     formData.append("images[]", file);
   }
 
-  await product.addProduct(formData);
+  await product.storeProduct(formData);
 
   if(product.isMessage){
     router.push({name: 'MyAdds'})

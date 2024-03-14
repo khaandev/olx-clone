@@ -68,7 +68,7 @@ onMounted(() => {
   category.indexCategory();
   const route = useRoute();
   const productId = route.params.id;
-  product.productInfo(productId);
+  product.showProduct(productId);
 
 });
 
@@ -76,7 +76,6 @@ onMounted(() => {
 const UpdateProductItem = async (id) => {
   selectedId.value = id;
   isModalOpen.value = true;
-  // console.log(selectedId.value);
 };
 
 
@@ -275,8 +274,10 @@ const UpdateProductItem = async (id) => {
       </div>
     </div>
   </div>
-<DeletePopUp @cancelBtn="isDeletePopUp=false" v-if="isDeletePopUp" @deleteBtn="deleteBtn"/>
-  <UpdateProdect v-if="isModalOpen" :selectedId="selectedId" @modalCancel="isModalOpen = false" />
+
+  <DeletePopUp @cancelBtn="isDeletePopUp=false" v-if="isDeletePopUp" @deleteBtn="deleteBtn"/>
+  <UpdateProdect v-if="isModalOpen" :selectedId="selectedId" @modalCancel="isModalOpen = false" @modalupdate="isModalOpen=false"/>
+
 </template>
 
 

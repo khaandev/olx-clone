@@ -1,20 +1,55 @@
 <script setup>
 import MainLayout from "@/Layouts/MainLayout/MainLayout.vue";
 import { useCategoryStore } from "@/stores/Auth/Post/category";
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 
 const category = useCategoryStore();
-
+import UpdateCategory from "@/components/Admin/UpdateCategory.vue";
+import PopUpLayout from "@/Layouts/PopUpLayout.vue";
+import AddCategory from "@/components/Admin/AddCategory.vue";
+import DeletePopUp from "@/components/WebRelated/DeletePopUp.vue";
 onMounted(() => {
   category.indexCategory();
 });
+
+const selectedId = ref(null)
+const isModalOpen = ref(false)
+const isModalUpdate = ref(false)
+const isModalDelete = ref(false)
+
+
+const openModal = () => {
+  isModalOpen.value = true;
+
+}
+const closeModal = () => {
+  isModalOpen.value = false;
+
+}
+const updateCat = (id) => {
+
+  selectedId.value = id;
+  isModalUpdate.value = true;
+  console.log('clicked');
+  
+}
+const deleteCategory = (id) => {
+  isModalDelete.value = true
+  selectedId.value = id;
+  console.log(selectedId.value);
+
+
+}
+
+
+
 </script>
 
 <template>
   <MainLayout>
-    <div class="m-5">
+    <div class="m-5" >
       <div class="mb-5">
-        <button class="bg-blue-500 text-white py-2 px-4 rounded flex gap-2">
+        <button class="bg-blue-500 text-white py-2 px-4 rounded flex gap-2" @click="openModal">
           Add Category
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -31,7 +66,7 @@ onMounted(() => {
         </button>
       </div>
       <!-- component -->
-      <table class="border-collapse w-full">
+      <table class="border-collapse w-full" v-if="!isModalOpen">
         <thead>
           <tr>
             <th
@@ -65,7 +100,7 @@ onMounted(() => {
                 >Actions</span
               >
               <div class="">
-                <button class="mr-5">
+                <button class="mr-5" @click="updateCat(categoryItem.id)">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -78,8 +113,9 @@ onMounted(() => {
                       clip-rule="evenodd"
                     />
                   </svg>
+
                 </button>
-                <button>
+                <button @click="deleteCategory(categoryItem.id)">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -99,5 +135,16 @@ onMounted(() => {
         </tbody>
       </table>
     </div>
+
+
+    <PopUpLayout  v-if="isModalOpen">
+  <AddCategory  @categoryAdded="closeModal" @close="isModalOpen=false"/>
+    </PopUpLayout>
+
+    <DeletePopUp v-if="isModalDelete" @cancelBtn="isModalDelete=false"/>
+
+    <updateCategory  v-if="isModalUpdate" />
   </MainLayout>
+
+  
 </template>

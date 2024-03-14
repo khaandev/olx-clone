@@ -3,7 +3,10 @@ import { ref } from 'vue';
 import BaseInput from '../WebRelated/BaseInput.vue';
 import ButtonPrimary from '../WebRelated/ButtonPrimary.vue';
 import { useCategoryStore } from '@/stores/Auth/Post/category';
+
+
 import { defineEmits } from 'vue';
+import PopUpLayout from '@/Layouts/PopUpLayout.vue';
 
 const emit = defineEmits(['categoryAdded','close'])
 const category = useCategoryStore()
@@ -32,21 +35,24 @@ const close = () => {
 
 <template>
 
-<div class="bg-gray-100 py-5 px-10">
+<PopUpLayout >
+    <div class="bg-gray-100 py-5 px-10">
 
-    <div class="flex justify-end">
-        <ButtonPrimary  text="X" class="bg-red-500 hover:bg-red-600" @click="close"/>
-    </div>
+<div class="flex justify-end">
+    <ButtonPrimary  text="X" class="bg-red-500 hover:bg-red-600" @click="close"/>
+</div>
 
-    <form action="" @submit.prevent="handleForm">
+<form action="" @submit.prevent="handleForm">
 
-        <BaseInput label="Enter Category" v-model="stateCategory"/>
+    <BaseInput label="Enter Category" v-model="stateCategory"/>
 
 <ButtonPrimary text="Add" class="mt-5" />
-    </form>
+</form>
 
-  
+
 
 </div>
+</PopUpLayout>
+
 
 </template>
