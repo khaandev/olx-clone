@@ -10,8 +10,9 @@ export const useCategoryStore = defineStore("category", () => {
 
   async function indexCategory() {
     try {
-      const response = await axios.get("/api/category");
-      categories.value = response.data.categories;
+      const res = await axios.get(`/api/category`);
+       categories.value = res.data;
+
     } catch (error) {
       validation.value = error.response;
     }
@@ -22,16 +23,16 @@ export const useCategoryStore = defineStore("category", () => {
       const res = await axios.post(`/api/category`,data)
       category.value = res.data;
       isMessage.value = res.data.message;
-      pushClasse(response.data)
-      resetValidationsErrors()
-    } catch(error) {
+      categories.value.push(res.data.category);
+      validation.value = {}
+       } catch(error) {
       
       validation.value = error.response;
     }
   }
   async function showCategory(id) {
     try {
-      const res = await axios.post(`/api/category/${id}`)
+      const res = await axios.get(`/api/category/${id}`)
       category.value = res.data;
     } catch(error) {
       validation.value = error.response;
@@ -40,7 +41,11 @@ export const useCategoryStore = defineStore("category", () => {
   async function updateCategory(id,data) {
     try {
       const res = await axios.post(`/api/category/${id}`,data)
-      category.value = res.data;
+      const cat = [...categories.value]
+      const index = cat.findIndex((Category) => Category.id == res.data.category.id)
+      cat.splice(index, 1, res.data.category)
+      categories.value = cat
+      isMessage.value = res.data.message;
 
     } catch(error) {
       validation.value = error.response;
@@ -49,7 +54,8 @@ export const useCategoryStore = defineStore("category", () => {
 
   async function deleteCategory(id) {
     try {
-      const res = await axios.post(`/api/category/${id}`);
+      const res = await axios.delete(`/api/category/${id}`);
+      isMessage.value = res.data.message;
       categories.value = categories.value.filter((categoryItem) => categoryItem.id !== id);
     } catch(error) {
       validation.value = error.response;
@@ -58,21 +64,15 @@ export const useCategoryStore = defineStore("category", () => {
 
 
 
-  function pushClasse(data){
-    categories.value.push(data);
-  }
-  function updateCategoryPush(data){
-    categories.value.push(data);
-  }
-  function resetValidationsErrors(){
-  validation.value = {}
-  }
+ 
+ 
 
   return {
     indexCategory,
     storeCategory,
     updateCategory,
     isMessage,
+    category,
     deleteCategory,
     showCategory,
     categories,

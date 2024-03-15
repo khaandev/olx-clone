@@ -45,7 +45,7 @@ const handleSubmit = async () => {
 
   await product.storeProduct(formData);
 
-  if(product.isMessage){
+  if(product.isMessage == 'Product added successfully'){
     router.push({name: 'MyAdds'})
   }
 };

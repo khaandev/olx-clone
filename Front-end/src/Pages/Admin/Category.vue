@@ -26,18 +26,25 @@ const closeModal = () => {
   isModalOpen.value = false;
 
 }
-const updateCat = (id) => {
-
-  selectedId.value = id;
+const updateCat = async (id) => {
+   selectedId.value = id,
   isModalUpdate.value = true;
-  console.log('clicked');
+  await category.showCategory(selectedId.value);
   
 }
 const deleteCategory = (id) => {
   isModalDelete.value = true
   selectedId.value = id;
-  console.log(selectedId.value);
+  
+}
+const categoryDelete = async () => {
 
+await category.deleteCategory(selectedId.value);
+
+if(category.isMessage == 'Category deleted successfully')
+{
+  isModalDelete.value=false;
+}
 
 }
 
@@ -141,9 +148,9 @@ const deleteCategory = (id) => {
   <AddCategory  @categoryAdded="closeModal" @close="isModalOpen=false"/>
     </PopUpLayout>
 
-    <DeletePopUp v-if="isModalDelete" @cancelBtn="isModalDelete=false"/>
+    <DeletePopUp v-if="isModalDelete  && category.category" @cancelBtn="isModalDelete = false " @deleteBtn="categoryDelete"/>
 
-    <updateCategory  v-if="isModalUpdate" />
+    <updateCategory  v-if="isModalUpdate && category.category" @close="isModalUpdate=false" @updateCategory="isModalUpdate=false" :selectedId="selectedId"/>
   </MainLayout>
 
   

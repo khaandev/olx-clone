@@ -15,9 +15,7 @@ class CategoryController extends Controller
        
         $categories = Category::all(); 
 
-        return response()->json([
-            'categories' => $categories, 
-        ], 200);
+        return response()->json($categories);
     
     }
 
@@ -44,7 +42,7 @@ class CategoryController extends Controller
 
         return response()->json([
             'message' => 'Category created successfully',
-             $category
+            'category' => $category
         ]);
     }
 
@@ -72,6 +70,7 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required|string|unique:categories,name,' . $id
+            
         ]);
 
         $category = Category::findOrFail($id);
@@ -82,7 +81,7 @@ class CategoryController extends Controller
 
         return response()->json([
             'message' => 'Category updated successfully',
-             $category
+            'category' => $category
         ]);  
       }
 

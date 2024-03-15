@@ -52,9 +52,7 @@ export const useProductStore = defineStore("product", () => {
         `/api/product/${id}`);
         product.value = response.data;
         isLoading.value = false;
-
-
-    } catch (error) {
+       } catch (error) {
       validation.value = error.response;
     }
   }
@@ -62,8 +60,8 @@ export const useProductStore = defineStore("product", () => {
     try {
       isLoading.value = true;
       const response = await axios.post(
-        `/api/product/${id}`, data);
-
+      `/api/product/${id}`, data);
+      
       product.value = response.data;
       isMessage.value = response.data.message;
       isLoading.value = false;
@@ -79,7 +77,6 @@ export const useProductStore = defineStore("product", () => {
       isLoading.value = true;
       const res = await axios.delete(`/api/product/${id}`);
       isMessage.value = res.data;
-      console.log(res.data);
       isLoading.value = false;
     } catch (error) {
       if (error.response) {
