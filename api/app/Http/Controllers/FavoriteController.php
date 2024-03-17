@@ -18,10 +18,9 @@ class FavoriteController extends Controller
 
 
         $user_id = Auth::id();
-        $fav = Favorite::where('user_id', $user_id)->with('product')->get();
-        return response()->json([
-            'Favorites' => $fav,
-        ], 200);
+        $favorite = Favorite::where('user_id', $user_id)->with('product')->get();
+        return response()->json( $favorite,
+       );
     }
 
     /**

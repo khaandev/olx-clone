@@ -103,7 +103,7 @@ const handleForm = async () => {
               <input
                 type="radio"
                 v-model="registerState.gender"
-                value="male"
+                value="Male"
               />
               Male
             </label>
@@ -111,7 +111,7 @@ const handleForm = async () => {
               <input
                 type="radio"
                 v-model="registerState.gender"
-                value="female"
+                value="Female"
               />
               Female
             </label>

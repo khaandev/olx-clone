@@ -25,10 +25,21 @@ class ProductController extends Controller
         ->with('category')
         ->with('user')->get();
 
-    return response()->json(
+       return response()->json(
         $products
     );
     }
+
+    public function myAdds()
+{
+    $user = auth()->user();
+    
+    $products = Product::where('user_id', $user->id)->get();
+
+    return response()->json(
+       $products
+    );
+}
 
     /**
      * Show the form for creating a new resource.
@@ -154,8 +165,6 @@ public function update(ProductRequest $request, string $id)
         $product
     ]);
 }
-
-
     /**
      * Remove the specified resource from storage.
      */

@@ -3,13 +3,26 @@ import { ref } from "vue";
 import axios from "@/http/Axios";
 export const useProductStore = defineStore("product", () => {
   const products = ref([]);
+  const myProducts = ref([]);
+
   const product = ref(null)
   const validation = ref(null);
   const category = ref(null);
   const isLoading = ref(false);
   const isMessage = ref(null);
 
-
+  async function indexMyProduct() {
+    try {
+      isLoading.value = true;
+      const response = await axios.get(
+        `/api/myproduct`
+      );
+      myProducts.value = response.data;
+      isLoading.value = false;
+     } catch (error) {
+      validation.value = error.response;
+    }
+  }
 
   async function indexProduct(category) {
     try {
@@ -61,7 +74,6 @@ export const useProductStore = defineStore("product", () => {
       isLoading.value = true;
       const response = await axios.post(
       `/api/product/${id}`, data);
-      
       product.value = response.data;
       isMessage.value = response.data.message;
       isLoading.value = false;
@@ -104,6 +116,7 @@ export const useProductStore = defineStore("product", () => {
     resetValidationsErrors,
     storeProduct,
     deleteProduct,
+    indexMyProduct,
     product,
     craeteProducat,
     showProduct,
@@ -111,5 +124,6 @@ export const useProductStore = defineStore("product", () => {
     products,
     validation,
     category,
+    myProducts,
   };
 });

@@ -51,45 +51,37 @@ const router = createRouter({
     {
       path: '/mobiles',
       name: 'Mobile',
-      meta: { requiresAuth: true },
       component: () => import('@/Pages/ProductsPage/Mobile.vue')
     },
     {
       path: '/animals',
       name: 'Animals',
-      meta: { requiresAuth: true },
       component: () => import('@/Pages/ProductsPage/Animals.vue')
     }, {
       path: '/bikes',
       name: 'Bikes',
-      meta: { requiresAuth: true },
       component: () => import('@/Pages/ProductsPage/Bikes.vue')
     }, {
       path: '/electronic',
       name: 'Electronic',
-      meta: { requiresAuth: true },
       component: () => import('@/Pages/ProductsPage/Electronic.vue')
     }, {
       path: '/property',
       name: 'Property',
-      meta: { requiresAuth: true },
       component: () => import('@/Pages/ProductsPage/Property.vue')
     }, {
       path: '/cars',
       name: 'Cars',
-      meta: { requiresAuth: true },
       component: () => import('@/Pages/ProductsPage/Cars.vue')
     },
     {
       path: '/add/product',
       name: 'SellProduct',
-      meta: { requiresAuth: true },
       component: () => import('@/Pages/ProductsPage/SellProduct.vue')
     },
     {
       path: '/product/detailes/:id',
       name: 'ProductDetailes',
-      meta: { requiresAuth: true },
       component: () => import('@/Pages/ProductsPage/ProductDetailes.vue')
     },
 

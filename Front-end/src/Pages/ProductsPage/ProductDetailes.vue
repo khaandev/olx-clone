@@ -42,7 +42,7 @@ const mobielClicked = () => {
 const clickefav = async (id) => {
   fav.value = !fav.value;
 
-  await favorite.favoriteGet(id);
+  await favorite.storeFavorite(id);
 };
 
 const deleteProductItem = async (id) => {

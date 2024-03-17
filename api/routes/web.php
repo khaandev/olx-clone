@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\MainController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +19,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return ['Laravel' => app()->version()];
 });
+
+Route::get('/auth/redirect', [MainController::class, 'googleRedirect']);
+Route::get('google/auth/redirect', [MainController::class, 'googlecallback']);
 
 
 require __DIR__.'/auth.php';
