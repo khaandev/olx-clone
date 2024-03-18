@@ -71,6 +71,7 @@ onMounted(() => {
     <div class="flex justify-center" v-else>
       <img src="https://hhrf.in/images/nodatafound.png" alt="" />
     </div>
+    
   </div>
 
 </template>

@@ -1,15 +1,19 @@
 <script setup>
-// import CategoryProduct from "@/components/WebRelated/IndexPageComponents/CategoryProduct.vue";
 import CategoryProduct from "@/components/IndexPageComponents/CategoryProduct.vue";
-import Card from "@/components/IndexPageComponents/Card.vue";
 import NavBar from "@/components/WebRelated/NavBar.vue";
 import Footer from "@/components/WebRelated/Footer.vue";
+import CarCard from "@/components/Cards/CarCard.vue";
+// import MobileCard from "@/components/Cards/MobileCard.vue";
+// import BikeCard from "@/components/Cards/BikeCard.vue";
+// import AnimalCard from "@/components/Cards/AnimalCard.vue";
+// import ElectronicCard from "@/components/Cards/ElectronicCard.vue";
+// import PropertyCard from "@/components/Cards/PropertyCard.vue";
 
 
 </script>
 
 <template>
-<NavBar />
+  <NavBar />
   <div class="mx-10">
     <div class="my-5">
       <img
@@ -19,7 +23,18 @@ import Footer from "@/components/WebRelated/Footer.vue";
       />
     </div>
     <CategoryProduct />
-    <Card />
+    <CarCard />
+    <hr>
+    <!-- <MobileCard /> -->
+    <!-- 
+    <hr>
+    <BikeCard />
+    <hr>
+    <AnimalCard />
+    <hr>
+    <ElectronicCard />
+    <hr>
+    <PropertyCard /> -->
   </div>
 
   <Footer />

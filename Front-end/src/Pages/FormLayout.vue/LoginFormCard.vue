@@ -6,7 +6,7 @@ const loginGoogle = async () => {
 <template>
   <div class="bg-gray-200 h-screen 	">
     <div class="flex flex-col items-center justify-center">
-      <div class="bg-white shadow rounded w-[30%] p-5  mt-20">
+      <div class="bg-white shadow rounded w-[30%] p-5  my-20">
         <p
           tabindex="0"
           class="focus:outline-none text-2xl font-extrabold leading-6 text-gray-800"
@@ -23,12 +23,13 @@ const loginGoogle = async () => {
           >
           <span class="text-blue-500"> Sign up here</span>   </RouterLink>
         </p>
-        <button
+        <!-- <div class=" ">
+          <button
           @click="loginGoogle"
           type="button"
           aria-label="Continue with google"
           role="button"
-          class="focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-gray-700 flex items-center w-full mt-10"
+          class="focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-gray-400 flex items-center w-full mt-10"
         >
           <svg
             width="19"
@@ -58,12 +59,26 @@ const loginGoogle = async () => {
             Continue with Google
           </p>
         </button>
+        <button
+          @click="loginGoogle"
+          type="button"
+          aria-label="Continue with google"
+          role="button"
+          class="focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-gray-400 flex items-center w-full mt-2"
+        >
+        <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="" width="24px">
+          <p class="text-base font-medium ml-4 text-gray-700">
+            Continue with Github
+          </p>
+        </button>
+        </div> -->
+      
 
-        <div class="w-full flex items-center justify-between py-5">
+        <!-- <div class="w-full flex items-center justify-between py-5">
           <hr class="w-full bg-gray-400" />
           <p class="text-base font-medium leading-4 px-2.5 text-gray-400">OR</p>
           <hr class="w-full bg-gray-400" />
-        </div>
+        </div> -->
 
         <slot></slot>
       </div>

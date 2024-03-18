@@ -2,39 +2,47 @@
 import BaseInput from "@/components/WebRelated/BaseInput.vue";
 import LoginFormCard from "@/Pages/FormLayout.vue/LoginFormCard.vue";
 import ButtonPrimary from "@/components/WebRelated/ButtonPrimary.vue";
-import { reactive } from "vue";
+import ValidtaionError from "../common/ValidtaionError.vue";
+import { reactive, ref } from "vue";
 import { useAuthStore } from "@/stores/Auth/Auth";
 import router from "@/router/index.js";
 
-const auth = useAuthStore()
+const auth = useAuthStore();
 
+const isLoading = ref(false);
 
 const loginState = reactive({
   email: "test@example.com",
   password: "password",
 });
+
 const handleForm = async () => {
+  isLoading.value = true;
+
   const formData = {
     email: loginState.email,
     password: loginState.password,
   };
+
   await auth.attemptLogin(formData);
 
   if (auth.isAuthenticated) {
     router.push({ name: "Profile" });
   }
+  isLoading.value = false;
 };
 </script>
+
 <template>
   <LoginFormCard>
-    <form action="" @submit.prevent="handleForm">
+    <form action="" @submit.prevent="handleForm" class="mt-8">
       <div>
         <BaseInput
           label="Enter E-mail"
           type="email"
           v-model="loginState.email"
         />
-        <span v-if="auth.AuthValidactionErrors?.data?.errors?.email?.length" class="text-red-500">*{{ auth.AuthValidactionErrors.data.errors.email[0] }}</span>
+        <ValidtaionError field="email" />
       </div>
       <div class="mt-6 w-full">
         <BaseInput
@@ -43,11 +51,10 @@ const handleForm = async () => {
           class="rounded-lg"
           v-model="loginState.password"
         />
-        <span v-if="auth.AuthValidactionErrors?.data?.errors?.password?.length" class="text-red-500">*{{ auth.AuthValidactionErrors.data.errors.password[0] }}</span>
-
+        <ValidtaionError field="password" />
       </div>
       <div class="mt-8">
-        <ButtonPrimary text="Login" />
+        <ButtonPrimary :text="isLoading ? 'Logging in...' : 'Login'" :disabled="isLoading" />
       </div>
     </form>
   </LoginFormCard>

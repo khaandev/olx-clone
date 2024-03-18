@@ -3,7 +3,7 @@ import { ref } from "vue";
 import axios from "axios";
 export const useCommonStore = defineStore("common", () => {
   const cityInfo = ref(null);
-  const validationErrors = ref(null);
+  const validationError = ref(null);
   const userWrongInfo = ref(null);
 
   async function getCitys() {
@@ -12,13 +12,11 @@ export const useCommonStore = defineStore("common", () => {
         'https://countriesnow.space/api/v0.1/countries/cities',
         { country: "pakistan",  }
       );
-
       const data = response.data;
-
       cityInfo.value = data;
 
     } catch (error) {
-      validationErrors.value = error.response;
+      validationError.value = error.response;
     } finally {
       userWrongInfo.value = "Something went wrong";
     }
@@ -27,7 +25,7 @@ export const useCommonStore = defineStore("common", () => {
   return {
     getCitys,
     cityInfo,
-    validationErrors,
+    validationError,
     userWrongInfo,
   };
 });

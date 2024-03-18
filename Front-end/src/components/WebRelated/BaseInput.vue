@@ -6,7 +6,6 @@ const props = defineProps([
   "modelValue",
   "placeholder",
   "type",
-  "disabled",
 ]);
 const emit = defineEmits(["update:modelValue"]);
 
@@ -22,7 +21,6 @@ const emitUpdate = (event) => {
       :value="modelValue"
       @input="emitUpdate"
       :type="type"
-      :disabled="disabled"
       class="w-full border border-gray-300 py-2 px-3 rounded-md focus:outline-none focus:border-blue-500"
       autocomplete="off"
       style="transition: border-color 0.3s ease-in-out"

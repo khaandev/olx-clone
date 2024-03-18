@@ -1,73 +1,75 @@
-import { ref ,computed} from "vue";
+import { ref, computed } from "vue";
 import axios from "@/http/Axios";
 import { defineStore } from "pinia";
+import { useCommonStore } from "../WebRelated/coman";
 
 export const useAuthStore = defineStore("Auth", () => {
   const isAuthenticated = ref(false);
-  // const registerSuccess = ref(false);
   const userInfo = ref(null);
-  const Validation = ref(null);
+  const comman = useCommonStore();
 
+  // user Login
 
-  // user Login 
   async function attemptLogin(data) {
     try {
-      await axios.get("http://localhost:8000/sanctum/csrf-cookie");
-      const res = await axios.post("http://localhost:8000/login", data);
+      await axios.get("/sanctum/csrf-cookie");
+      const res = await axios.post("/login", data);
       isAuthenticated.value = true;
       userInfo.value = res.data;
     } catch (error) {
-      Validation.value = error.response;
-     
-    } 
+      comman.validationError = error.response.data.errors;
+    }
   }
+
   // user register
+
   async function Register(data) {
     try {
-      const res = await axios.post("http://localhost:8000/register", data);
+      const res = await axios.post("/register", data);
       userInfo.value = res.data;
 
       resetValidationsErrors();
     } catch (error) {
-      Validation.value = error.response;
-    } 
+      comman.validationError = error.response.data.errors;
+    }
   }
 
-  // user load 
+  // user load
   async function loadUser() {
     try {
-      const res = await axios.get("http://localhost:8000/api/user");
+      const res = await axios.get("/api/user");
       isAuthenticated.value = true;
       userInfo.value = res.data;
     } catch (error) {
-      Validation.value = error.response;
-    } 
+      comman.validationError = error.response;
+    }
   }
 
   const userId = computed(() => {
     return userInfo.value ? userInfo.value.user.id : null;
   });
 
-// user update
+  // user update
 
   async function updateUserDetails(data) {
     try {
-      const res = await axios.post(`http://localhost:8000/api/user/${userId.value}`, data);
+      const res = await axios.post(`/api/user/${userId.value}`, data);
       userInfo.value = res.data.user;
       resetValidationsErrors();
     } catch (error) {
-      Validation.value = error.response;
+      comman.validationError = error.response;
     }
   }
 
   // logout user
+
   async function logout() {
     try {
-      await axios.post("http://localhost:8000/api/logout");
+      await axios.post("/api/logout");
       isAuthenticated.value = false;
       userInfo.value = null;
     } catch (error) {
-      Validation.value = error.response;
+      comman.validationError = error.response;
     }
   }
   function resetValidationsErrors() {
@@ -78,7 +80,6 @@ export const useAuthStore = defineStore("Auth", () => {
     isAuthenticated,
     attemptLogin,
     userInfo,
-    Validation,
     resetValidationsErrors,
     loadUser,
     Register,

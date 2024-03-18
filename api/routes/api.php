@@ -20,6 +20,7 @@ use App\Http\Controllers\ProductController;
 
 
 
+
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', [AuthenticatedSessionController::class, 'getUser']);
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
@@ -27,10 +28,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         // products 
         Route::get('/products', [ProductController::class, 'index']);
-        Route::get('/product/{user}', [ProductController::class, 'show']);
+        Route::get('/product/{user}', [ProductController::class, 'show']);        
         Route::post('/product', [ProductController::class, 'store']);
         Route::put('/product/{user}', [ProductController::class, 'update']);
         Route::delete('/product/{user}', [ProductController::class, 'destroy']);
+
+        //10 card
+
 
         //my product 
         Route::get('/myproduct', [ProductController::class, 'myAdds']);
@@ -47,14 +51,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/category/{user}', [CategoryController::class, 'show']);
         Route::put('/category/{user}', [CategoryController::class, 'update']);
         Route::delete('/category/{user}', [CategoryController::class, 'destroy']);
-
-
-
-
-
-
+      
 });
-
 
 
 
