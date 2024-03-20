@@ -6,6 +6,7 @@ import multiselect from "@vueform/multiselect";
 import { onMounted, reactive, ref } from "vue";
 import ButtonPrimary from "../WebRelated/ButtonPrimary.vue";
 import { useProductStore } from "@/stores/Auth/Post/products";
+import ValidtaionError from "../common/ValidtaionError.vue";
 import router from "@/router";
 const product = useProductStore();
 const { isLoading } = useProductStore();
@@ -45,9 +46,9 @@ const handleSubmit = async () => {
 
   await product.storeProduct(formData);
 
-  if(product.isMessage == 'Product added successfully'){
-    router.push({name: 'MyAdds'})
-  }
+  // if (product.isMessage == "Product added successfully") {
+  //   router.push({ name: "MyAdds" });
+  // }
 };
 </script>
 
@@ -73,6 +74,7 @@ const handleSubmit = async () => {
               placeholder="Select Your Location"
             >
             </multiselect>
+            <ValidtaionError field="category_id" />
           </label>
 
           <label for="loc" class="col-span-6">
@@ -88,20 +90,25 @@ const handleSubmit = async () => {
               placeholder="Select Your Location"
             >
             </multiselect>
+            <ValidtaionError field="location" />
+          </label>
+          <label for="" class="col-span-6">
+            <BaseInput label="Title" type="text" v-model="productState.title" />
+            <ValidtaionError field="title" />
           </label>
 
-          <BaseInput
-            label="Title"
-            type="text"
-            class="col-span-6"
-            v-model="productState.title"
-          />
-          <BaseInput
+         
+          <label for=""  class="col-span-6" >
+
+            <BaseInput
             label="Price"
             type="number"
-            class="col-span-6"
             v-model="productState.price"
           />
+          <ValidtaionError field="price" />
+
+          </label>
+         
           <label for="des" class="col-span-12 text-gray-600"
             >Description
             <textarea
@@ -113,16 +120,34 @@ const handleSubmit = async () => {
               class="w-full border border-gray-500 py-2 px-3 rounded-md focus:outline-none focus:border-blue-500 resize-none"
             >
             </textarea>
-          </label>
+            <ValidtaionError field="description" />
 
-          <label
+            
+          </label>
+<div class="col-span-6">
+  <label
             id="select-image"
-            class="col-span-6 cursor-pointer flex bg-white border p-2 rounded border-gray-300 justify-center"
+            class=" cursor-pointer flex bg-white border p-2 rounded border-gray-300 justify-center"
           >
-            <input type="file" @change="ImagesChange" multiple accept="image/jpeg, image/png"/>
+            <input
+              type="file"
+              @change="ImagesChange"
+              multiple
+              accept="image/jpeg, image/png"
+            />
+            
           </label>
+  <ValidtaionError field="images" />
 
-          <ButtonPrimary text="Add Post" class="col-span-6" :disabled="isLoading"/>
+</div>
+          
+          
+
+          <ButtonPrimary
+            text="Add Post"
+            class="col-span-6"
+            :disabled="isLoading"
+          />
         </div>
       </form>
     </div>

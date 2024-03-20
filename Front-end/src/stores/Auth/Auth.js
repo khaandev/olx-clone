@@ -7,6 +7,7 @@ export const useAuthStore = defineStore("Auth", () => {
   const isAuthenticated = ref(false);
   const userInfo = ref(null);
   const comman = useCommonStore();
+  const isSuccess = ref(false)
 
   // user Login
 
@@ -27,12 +28,18 @@ export const useAuthStore = defineStore("Auth", () => {
     try {
       const res = await axios.post("/register", data);
       userInfo.value = res.data;
-
       resetValidationsErrors();
+      isSuccess.value = true
+
     } catch (error) {
-      comman.validationError = error.response.data.errors;
+      if (error.response && error.response.data && error.response.data.errors) {
+        comman.validationError = error.response.data.errors;
+      } else {
+        console.log("Error occurred during registration:", error);
+      }
     }
   }
+  
 
   // user load
   async function loadUser() {
@@ -73,10 +80,11 @@ export const useAuthStore = defineStore("Auth", () => {
     }
   }
   function resetValidationsErrors() {
-    Validation.value = {};
+    comman.validationError = {};
   }
 
   return {
+    isSuccess,
     isAuthenticated,
     attemptLogin,
     userInfo,

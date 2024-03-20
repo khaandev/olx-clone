@@ -4,7 +4,6 @@ import axios from "axios";
 export const useCommonStore = defineStore("common", () => {
   const cityInfo = ref(null);
   const validationError = ref(null);
-  const userWrongInfo = ref(null);
 
   async function getCitys() {
     try {
@@ -17,15 +16,12 @@ export const useCommonStore = defineStore("common", () => {
 
     } catch (error) {
       validationError.value = error.response;
-    } finally {
-      userWrongInfo.value = "Something went wrong";
-    }
+    } 
   }
 
   return {
     getCitys,
     cityInfo,
     validationError,
-    userWrongInfo,
   };
 });

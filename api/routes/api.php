@@ -6,6 +6,8 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RecentProductsController;
+use App\Http\Controllers\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,13 +29,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/user/{user}', [AuthenticatedSessionController::class, 'update'])->name('user.update');
 
         // products 
-        Route::get('/products', [ProductController::class, 'index']);
-        Route::get('/product/{user}', [ProductController::class, 'show']);        
+             
         Route::post('/product', [ProductController::class, 'store']);
         Route::put('/product/{user}', [ProductController::class, 'update']);
         Route::delete('/product/{user}', [ProductController::class, 'destroy']);
 
-        //10 card
+      
 
 
         //my product 
@@ -51,8 +52,18 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/category/{user}', [CategoryController::class, 'show']);
         Route::put('/category/{user}', [CategoryController::class, 'update']);
         Route::delete('/category/{user}', [CategoryController::class, 'destroy']);
+
+        //report products
+        Route::get('/report', [ReportController::class, 'index']);
+        Route::post('/report', [ReportController::class, 'store']);
+
+
       
 });
+  // card with product
+ Route::get('recent_products', [RecentProductsController::class, 'getRecentProducts']);
+Route::get('/products', [ProductController::class, 'index']);
+Route::get('/product/{user}', [ProductController::class, 'show']);  
 
 
 

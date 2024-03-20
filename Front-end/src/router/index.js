@@ -99,6 +99,12 @@ const router = createRouter({
       meta: { requiresAuth: true },
       component: () => import('@/Pages/Admin/Category.vue')
     },
+    {
+      path: '/report',
+      name: 'ProductReport',
+      meta: { requiresAuth: true },
+      component: () => import('@/Pages/Admin/ProductReport.vue')
+    },
   ]
 });
 

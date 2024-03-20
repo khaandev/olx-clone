@@ -31,11 +31,11 @@ const handleForm = async () => {
     dob: registerState.dob,
   };
   await auth.Register(formData);
-  // console.log(formData);
 
-  if (auth.registerSuccess) {
+  if (auth.userInfo?.message == 'user Register Successfully' && auth.isSuccess ) {
     router.push({ name: "Login" });
   }
+
   isLoading.value = false
   
 };
@@ -80,7 +80,7 @@ const handleForm = async () => {
             placeholder="Confirm Password"
             type="password"
             label="Confirm Password"
-            v-model="registerState.password_confirmation"
+            v-model="registerState.confirmPassword"
           />
           <ValidtaionError field="confirmPassword" />
 

@@ -1,15 +1,19 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import axios from "@/http/Axios";
+import { useCommonStore } from "@/stores/WebRelated/coman";
+const comman = useCommonStore()
 export const useProductStore = defineStore("product", () => {
   const products = ref([]);
   const myProducts = ref([]);
+  const productWithCategory = ref([]);
+
 
   const product = ref(null)
   const validation = ref(null);
   const category = ref(null);
   const isLoading = ref(false);
-  const isMessage = ref(null);
+  const isMessage = ref(false);
 
   async function indexMyProduct() {
     try {
@@ -20,7 +24,20 @@ export const useProductStore = defineStore("product", () => {
       myProducts.value = response.data;
       isLoading.value = false;
      } catch (error) {
-      validation.value = error.response;
+      comman.validationError = error.response.data.errors;
+    }
+  }
+
+  async function indexMyProductWithCategory() {
+    try {
+      isLoading.value = true;
+      const response = await axios.get(
+        `/api/recent_products`
+      );
+      productWithCategory.value = response.data;
+      isLoading.value = false;
+     } catch (error) {
+      comman.validationError = error.response.data.errors;
     }
   }
 
@@ -33,7 +50,7 @@ export const useProductStore = defineStore("product", () => {
       products.value = response.data;
       isLoading.value = false;
      } catch (error) {
-      validation.value = error.response;
+      comman.validationError = error.response.data.errors;
     }
   }
 
@@ -43,14 +60,15 @@ export const useProductStore = defineStore("product", () => {
       const response = await axios.post(
       `/api/product`, data);
       product.value = response.data;
-      isMessage.value = response.data.message
+      products.value.push(response.data);
+      isMessage.value = true;
       isLoading.value = false;
-      craeteProducat(response.data)
-      resetValidationsErrors()
-
+      comman.validationError = null
     } catch (error) {
+      isLoading.value = false;
+      isMessage.value = false;
       if(error.response){
-        validation.value = error.response;
+        comman.validationError = error.response.data.errors;
 
       }else{
         console.log('some thing went Worng');
@@ -65,8 +83,10 @@ export const useProductStore = defineStore("product", () => {
         `/api/product/${id}`);
         product.value = response.data;
         isLoading.value = false;
+
        } catch (error) {
-      validation.value = error.response;
+
+      comman.validationError = error.response.data.errors;
     }
   }
   async function updateProduct(id,data) {
@@ -75,24 +95,21 @@ export const useProductStore = defineStore("product", () => {
       const response = await axios.post(
       `/api/product/${id}`, data);
       product.value = response.data;
-      isMessage.value = response.data.message;
       isLoading.value = false;
-
-      
       resetValidationsErrors()
     } catch (error) {
-      validation.value = error.response;
+
+      comman.validationError = error.response.data.errors;
     }
   }
   async function deleteProduct(id){
     try {
       isLoading.value = true;
       const res = await axios.delete(`/api/product/${id}`);
-      isMessage.value = res.data;
       isLoading.value = false;
     } catch (error) {
       if (error.response) {
-        validation.value = error.response;
+        comman.validationError = error.response.data.errors;
       } else {
         console.error(error); 
       }
@@ -100,25 +117,20 @@ export const useProductStore = defineStore("product", () => {
   }
   
 
-  
-  function resetValidationsErrors() {
-    validation.value = {}
-  }
 
-  function craeteProducat(newProduct) {
-    products.value.push(newProduct)
-  }
+
+ 
 
   return {
+    indexMyProductWithCategory,
     isLoading,
     updateProduct,
     isMessage,
-    resetValidationsErrors,
+    productWithCategory,
     storeProduct,
     deleteProduct,
     indexMyProduct,
     product,
-    craeteProducat,
     showProduct,
     indexProduct,
     products,

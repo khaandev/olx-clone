@@ -2,12 +2,8 @@
 import CategoryProduct from "@/components/IndexPageComponents/CategoryProduct.vue";
 import NavBar from "@/components/WebRelated/NavBar.vue";
 import Footer from "@/components/WebRelated/Footer.vue";
-import CarCard from "@/components/Cards/CarCard.vue";
-// import MobileCard from "@/components/Cards/MobileCard.vue";
-// import BikeCard from "@/components/Cards/BikeCard.vue";
-// import AnimalCard from "@/components/Cards/AnimalCard.vue";
-// import ElectronicCard from "@/components/Cards/ElectronicCard.vue";
-// import PropertyCard from "@/components/Cards/PropertyCard.vue";
+import ProductCardItem from "@/components/ProductCard/ProductCardItem.vue";
+
 
 
 </script>
@@ -23,18 +19,10 @@ import CarCard from "@/components/Cards/CarCard.vue";
       />
     </div>
     <CategoryProduct />
-    <CarCard />
     <hr>
-    <!-- <MobileCard /> -->
-    <!-- 
-    <hr>
-    <BikeCard />
-    <hr>
-    <AnimalCard />
-    <hr>
-    <ElectronicCard />
-    <hr>
-    <PropertyCard /> -->
+    <ProductCardItem />
+   
+   
   </div>
 
   <Footer />

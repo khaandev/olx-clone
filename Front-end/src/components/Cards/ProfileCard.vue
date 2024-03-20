@@ -31,7 +31,8 @@ const handleForm  = async () => {
 };
 </script>
 <template>
-  <div class="px-40 my-10">
+    <div class=" px-10">
+        <div class="px-40 my-10 ">
     <div class="bg-gray-100 border border-gray-300 p-5 rounded-lg shadow-lg">
       <div>
         <h1 class="text-xl font-bold mb-5">Edit profile</h1>
@@ -93,4 +94,6 @@ const handleForm  = async () => {
 
     </div>
   </div>
+    </div>
+  
 </template>
