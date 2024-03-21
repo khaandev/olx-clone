@@ -61,7 +61,7 @@ const deleteBtn = async () => {
   await product.deleteProduct(selectedId.value);
   isDeletePopUp.value = false;
 
-  if (product.isMessage.message == "Product deleted successfully") {
+  if (product.isMessage) {
     router.go(-1);
   }
 };
@@ -136,6 +136,7 @@ const clickReport = (id) => {
       </div>
       <div class="md:col-span-4 col-span-12" id="font">
         <div class="bg-gray-100 p-5 rounded border border-gray-400">
+
           <div class="flex gap-2 border">
             <img
               src="https://www.olx.com.pk/assets/iconProfilePicture.7975761176487dc62e25536d9a36a61d.png"
@@ -167,10 +168,7 @@ const clickReport = (id) => {
             </h2>
           </div>
 
-          <div
-            class="border mt-5 p-2"
-            v-if="product.product?.user_id === auth.userInfo?.user?.id"
-          >
+          <div class="border mt-5 p-2" v-if="product.product?.user_id === auth.userInfo?.user?.id">
             <div class="grid grid-cols-2">
               <div class="flex justify-center">
                 <button @click="deleteProductItem(product.product.id)">
@@ -205,6 +203,27 @@ const clickReport = (id) => {
                 </button>
               </div>
             </div>
+        
+        
+          </div>
+          <div class="border mt-5" v-else-if="!auth.userInfo?.user?.id">
+            <RouterLink :to="{ name : 'Login' }">
+            <div class="grid grid-cols-1 bg-blue-500 text-white p-2">
+              
+             
+              <div class="flex justify-center">
+              Login..
+              </div>
+            </div>
+          </RouterLink>
+
+          </div>
+          <div class="border mt-5" v-else-if="auth.userInfo?.user?.role === 'admin'">
+            <div class="flex justify-center bg-red-500 text-white p-2">
+                <button @click="deleteProductItem(product.product.id)" class="w-full">
+                 Delete Product
+                </button>
+              </div>
           </div>
           <div class="border mt-5 p-2" v-else>
             <div class="grid grid-cols-4">
@@ -260,7 +279,13 @@ const clickReport = (id) => {
                 </button>
               </div>
               <div class="flex justify-center">
-                <button @click="clickReport(product.product.id)">
+                <button @click="clickReport(product.product.id)"
+                
+                 :class="
+                      report.reports?.user_id === auth.userInfo.user.id &&  report.reports?.product_id === product.product?.id
+                        ? 'text-red-500'
+                        : 'text-black'
+                    ">
 
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -287,6 +312,9 @@ const clickReport = (id) => {
           >
             {{ product.product?.user?.phone }}
           </div>
+
+
+
         </div>
       </div>
     </div>

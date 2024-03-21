@@ -178,7 +178,7 @@ public function update(ProductRequest $request, string $id)
     $product = Product::findOrFail($id);
    
     $user = auth()->user();
-    if ($user->id !== $product->user_id) {
+    if ($user->id !== $product->user_id && $user->role === 'user') {
         return response()->json([
             'message' => 'Unauthorized. You are not the owner of this product.',
         ], 403);

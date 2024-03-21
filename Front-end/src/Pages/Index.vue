@@ -10,7 +10,7 @@ import ProductCardItem from "@/components/ProductCard/ProductCardItem.vue";
 
 <template>
   <NavBar />
-  <div class="mx-10">
+  <div class="md:mx-10 mx-5">
     <div class="my-5">
       <img
         src="https://images.olx.com.pk/thumbnails/436059214-800x600.webp"

@@ -26,15 +26,19 @@ const handleForm = async () => {
 
   await auth.attemptLogin(formData);
 
-  if (auth.isAuthenticated) {
+  if (auth.isAuthenticated ) {
     router.push({ name: "Profile" });
   }
+  
+
   isLoading.value = false;
 };
 </script>
 
 <template>
   <LoginFormCard>
+  <label>{{ auth.userInfo?.user?.role }}</label>
+
     <form action="" @submit.prevent="handleForm" class="mt-8">
       <div>
         <BaseInput

@@ -54,14 +54,14 @@ const handleSubmit = async () => {
 
 <template>
   <div class="flex justify-center">
-    <div class="w-[50%] my-10 bg-gray-100 p-5 rounded-md">
+    <div class="md:w-[50%] w-full my-10 bg-gray-100 p-5 rounded-md">
       <form
         action=""
         @submit.prevent="handleSubmit"
         enctype="multipart/form-data"
       >
         <div class="grid grid-cols-12 gap-3">
-          <label for="cat" class="col-span-6">
+          <label for="cat" class="md:col-span-6 col-span-12">
             <span class="text-gray-600">Select Your Category</span>
 
             <multiselect
@@ -77,7 +77,7 @@ const handleSubmit = async () => {
             <ValidtaionError field="category_id" />
           </label>
 
-          <label for="loc" class="col-span-6">
+          <label for="loc" class="md:col-span-6 col-span-12">
             <span class="text-gray-600">Select Your Location</span>
 
             <multiselect
@@ -124,7 +124,7 @@ const handleSubmit = async () => {
 
             
           </label>
-<div class="col-span-6">
+<div class="md:col-span-6 col-span-12">
   <label
             id="select-image"
             class=" cursor-pointer flex bg-white border p-2 rounded border-gray-300 justify-center"

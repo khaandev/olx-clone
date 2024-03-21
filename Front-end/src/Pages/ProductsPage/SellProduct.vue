@@ -6,7 +6,7 @@ import NavBar from '@/components/WebRelated/NavBar.vue';
 <template>
 
     <NavBar />
-<div class="mx-10">
+<div class="md:mx-10 mx-5">
     <AddProduct />
 
 </div>

@@ -51,6 +51,9 @@ const secoundMenuLink = ref([
   },
 ]);
 
+const isNavOpen = ref(true)
+
+
 const navigateTo = (path) => {
   router.push(path);
 };
@@ -59,10 +62,39 @@ const menuItem = ref(false);
 
 <template>
   <div
-    class="sticky top-0 bg-gray-100 py-5 bg-opacity-70 shadow-md px-10 backdrop-blur-md z-50"
+    class="sticky top-0 bg-gray-100 md:py-5 py-2 bg-opacity-70 shadow-md md:px-10 backdrop-blur-md z-50"
   >
-    <div class="grid grid-cols-12 gap-3">
-      <div class="col-span-1 my-auto">
+    <div class="md:hidden flex justify-between">
+      <div class="p-2">
+        <RouterLink :to="{ path: '/' }">
+          <img
+            src="https://logos-world.net/wp-content/uploads/2022/04/OLX-Symbol.png"
+            alt=""
+            class="w-[50px]"
+          />
+        </RouterLink>
+      </div>
+      <div class="p-2">
+        <button @click="isNavOpen =! isNavOpen" >
+          <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="w-6 h-6"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M3 6.75A.75.75 0 0 1 3.75 6h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 6.75ZM3 12a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12Zm0 5.25a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        </button>
+      
+      </div>
+    </div>
+
+    <div class="grid grid-cols-12 gap-3 md:mx-0 mx-2 " v-if="isNavOpen">
+      <div class="md:col-span-1 col-span-12 my-auto md:grid justify-center hidden" >
         <RouterLink :to="{ path: '/' }">
           <img
             src="https://logos-world.net/wp-content/uploads/2022/04/OLX-Symbol.png"
@@ -71,7 +103,7 @@ const menuItem = ref(false);
           />
         </RouterLink>
       </div>
-      <div class="col-span-4 my-auto">
+      <div class="md:col-span-4 col-span-12 my-auto">
         <label for="name" class="text-gray-600 hover:cursor-pointer">
           <multiselect
             :options="comans.cityInfo?.data"
@@ -86,7 +118,7 @@ const menuItem = ref(false);
           </multiselect>
         </label>
       </div>
-      <div class="col-span-5 my-auto flex">
+      <div class="md:col-span-5 col-span-12 my-auto flex">
         <input
           type="text"
           id="searchInput"
@@ -114,11 +146,15 @@ const menuItem = ref(false);
       </div>
 
       <div
-        :class="`col-span-2 my-auto flex gap-3 ${
+        :class="`md:col-span-2 col-span-5 my-auto  flex gap-3 ${
           auth.isAuthenticated && 'justify-between'
         }`"
+    
       >
-        <div class="my-auto" v-if="auth.isAuthenticated">
+        <div
+          class="my-auto"
+          v-if="auth.isAuthenticated && auth.userInfo?.user?.role !== 'admin'"
+        >
           <RouterLink :to="{ name: 'SellProduct' }">
             <button
               class="bg-gray-500 flex gap-1 hover:bg-gray-600 text-white font-semibold rounded-md py-2 px-4"
@@ -140,32 +176,14 @@ const menuItem = ref(false);
           </RouterLink>
         </div>
 
-        <div v-if="!auth.isAuthenticated">
-          <RouterLink :to="{ name: 'Login' }">
-            <button
-              class="bg-blue-500 flex gap-2 hover:bg-blue-60 text-white font-semibold rounded-md py-2 px-4"
-            >
-              Login
-            </button> </RouterLink
-          >
-        </div>
-
-        <div v-if="!auth.isAuthenticated">
-          <RouterLink :to="{ name: 'Register' }">
-            <button
-              class="bg-blue-500 flex gap-2 hover:bg-blue-60 text-white font-semibold rounded-md py-2 px-4"
-            >
-              Register
-            </button>
-          </RouterLink>
-        </div>
-        <div v-if="auth.isAuthenticated">
+      
+        <div v-if="auth.isAuthenticated" >
           <button @click="menuItem = !menuItem" class="relative">
-            <div class="flex">
+            <div class="flex ">
               <img
                 src="https://www.olx.com.pk/assets/iconProfilePicture.7975761176487dc62e25536d9a36a61d.png"
                 alt=""
-                class="w-[50px]"
+                class="md:w-[50px]"
               />
               <span class="my-auto" v-if="!menuItem">
                 <svg
@@ -200,18 +218,41 @@ const menuItem = ref(false);
             <ProfileDropMenuVue v-if="menuItem" />
           </button>
         </div>
+
+        <div v-if="!auth.isAuthenticated">
+          <RouterLink :to="{ name: 'Login' }">
+            <button
+              class="bg-blue-500 flex gap-2 hover:bg-blue-60 text-white font-semibold rounded-md py-2 px-4"
+            >
+              Login
+            </button>
+          </RouterLink>
+        </div>
+
+        <div v-if="!auth.isAuthenticated">
+          <RouterLink :to="{ name: 'Register' }">
+            <button
+              class="bg-blue-500 flex gap-2 hover:bg-blue-60 text-white font-semibold rounded-md py-2 px-4"
+            >
+              Register
+            </button>
+          </RouterLink>
+        </div>
       </div>
     </div>
+
   </div>
 
   <!-- secound nav bar -->
   <div class="my-5 text-gray-600" id="font">
-    <ul class="flex gap-5 mx-10">
+    <ul
+      class="md:gap-5 gap-1 md:mx-10 mx-5 text-center md:flex grid grid-cols-3"
+    >
       <li
         v-for="navLink in secoundMenuLink"
         :key="navLink"
         @click="navigateTo(navLink.path)"
-        class="cursor-pointer"
+        class="cursor-pointer md:text-lg text-md"
         :class="{ 'text-blue-500': navLink.active }"
       >
         {{ navLink.name }}

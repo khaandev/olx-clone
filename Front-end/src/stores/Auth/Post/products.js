@@ -5,6 +5,7 @@ import { useCommonStore } from "@/stores/WebRelated/coman";
 const comman = useCommonStore()
 export const useProductStore = defineStore("product", () => {
   const products = ref([]);
+
   const myProducts = ref([]);
   const productWithCategory = ref([]);
 
@@ -106,9 +107,12 @@ export const useProductStore = defineStore("product", () => {
     try {
       isLoading.value = true;
       const res = await axios.delete(`/api/product/${id}`);
+      isMessage.value = true;
       isLoading.value = false;
     } catch (error) {
       if (error.response) {
+        isMessage.value = false;
+
         comman.validationError = error.response.data.errors;
       } else {
         console.error(error); 

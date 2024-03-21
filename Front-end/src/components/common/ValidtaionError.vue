@@ -1,7 +1,7 @@
 <template>
   <span
     v-if="common.validationError && common.validationError[props.field]"
-    class="text-red-500"
+    class="text-red-500 text-sm"
   >
     {{ common.validationError[props.field][0] }}
   </span>

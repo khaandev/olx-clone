@@ -55,11 +55,11 @@ const navigateTo = (path) => {
  <div>
       <h1 class="text-2xl font-bold">All categories</h1>
     </div>
-<div class="grid grid-cols-6 my-10">
+<div class="grid md:grid-cols-6 grid-cols-3 my-10">
       <div v-for="productItem in categoriesProduct" :key="productItem.id">
         <div class=" grid justify-center">
           <div   @click="navigateTo(productItem.path)" class="cursor-pointer">
-            <img :src="productItem.img" alt="" class=" hover:scale-110 transition duration-500 cursor-pointer object-cover  "/>
+            <img :src="productItem.img" alt="" class="md:w-full w-[100px] hover:scale-110 transition duration-500 cursor-pointer object-cover  "/>
           <h2 class="my-2 text-center font-bold">{{ productItem.text }}</h2>
           </div>
         

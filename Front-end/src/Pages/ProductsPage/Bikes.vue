@@ -15,18 +15,18 @@ onMounted(() => {
 
 <template>
   <NavBar />
-  <div class="mx-10">
-    <h1 class="text-4xl mb-10" id="font">
+  <div class="md:mx-10 mx-5">
+    <h1 class="md:text-4xl text-2xl mb-10" id="font">
       Find Your Dream <span class="text-pink-500">Bikes </span> in Low budget
     </h1>
 
     <div
-      class="grid grid-cols-2 my-5 gap-3"
+      class="grid md:grid-cols-2 grid-cols-1 my-5 gap-3"
       id="font"
       v-if="product.products.length"
     >
       <div v-for="productItem in product.products" :key="productItem.id">
-        <div class="border border-gray-400 rounded shadow-md shadow-gray-500">
+        <div class="border border-gray-300 rounded shadow-md">
           <div class="grid grid-cols-2">
             <div>
               <img

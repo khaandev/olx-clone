@@ -47,12 +47,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
         
 
         //admin can access
-        Route::get('/category', [CategoryController::class, 'index']);
-        Route::post('/category', [CategoryController::class, 'store']);
-        Route::get('/category/{user}', [CategoryController::class, 'show']);
-        Route::put('/category/{user}', [CategoryController::class, 'update']);
-        Route::delete('/category/{user}', [CategoryController::class, 'destroy']);
+        
+        Route::middleware('admin')->group(function () {
+          Route::post('/category', [CategoryController::class, 'store']);
+          Route::get('/category/{category}', [CategoryController::class, 'show']);
+          Route::put('/category/{category}', [CategoryController::class, 'update']);
+          Route::delete('/category/{category}', [CategoryController::class, 'destroy']);
+      });
+           Route::get('/category', [CategoryController::class, 'index']);
 
+      
         //report products
         Route::get('/report', [ReportController::class, 'index']);
         Route::post('/report', [ReportController::class, 'store']);
