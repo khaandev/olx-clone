@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -67,8 +68,23 @@ public function store(Request $request)
      */
     public function show(string $id)
     {
-        //
+        try {
+    $user = Auth::user();
+
+            $report = Report::with(['product', 'user'])->findOrFail($id);
+
+            $existingReport = Report::where('user_id', $user->id)
+            ->where('product_id', $productReport->id)
+            ->first();
+
+            return response()->json($report);
+
+        } catch (ModelNotFoundException $exception) {
+            // Report not found, return a 404 response
+            return response()->json(['message' => 'Report not found'], 404);
+        }
     }
+    
 
     /**
      * Show the form for editing the specified resource.

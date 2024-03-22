@@ -38,12 +38,7 @@ const router = createRouter({
       meta: { requiresAuth: true , user: true},
       component: () => import("@/Pages/Auth/MyFavorites.vue"),
     },
-    {
-      path: "/profile/seting",
-      name: "Seting",
-      meta: { requiresAuth: true },
-      component: () => import("@/Pages/Auth/Seting.vue"),
-    },
+    
 
     //product pages here
 

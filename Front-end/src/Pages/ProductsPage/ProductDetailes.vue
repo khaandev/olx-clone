@@ -18,10 +18,7 @@ const category = useCategoryStore();
 const favorite = useFavoriteStore();
 import { useReportStore } from "@/stores/WebRelated/productReport";
 const report = useReportStore()
-onMounted(() => {
-    report.indexReport();
 
-})
 
 const auth = useAuthStore();
 const isModalOpen = ref(false);
@@ -32,8 +29,11 @@ const openEmail = () => {
     subject
   )}`;
 
+
   window.location.href = mailtoLink;
 };
+
+
 
 const selectedId = ref(null);
 const isReportModal = ref(false)
@@ -81,9 +81,12 @@ const goBack = () => {
   router.go(-1);
 };
 
-const clickReport = (id) => {
+const clickReport = async (id) => {
   selectedId.value = id;
   isReportModal.value = true;
+  await report.showReport(selectedId.value);
+  console.log('hy');
+
 }
 </script>
 
@@ -304,7 +307,7 @@ const clickReport = (id) => {
           </div>
 
           <div v-if="isNumber" class="mt-3">
-            <p class="text-md text-gray-600">Here is Sell Phone Number</p>
+            <p class="text-md text-gray-600">Here is Seller Phone Number</p>
           </div>
           <div
             class="border border-gray-300 rounded text-gray-600 bg-gray-200 p-1 mt-1"
@@ -319,7 +322,7 @@ const clickReport = (id) => {
       </div>
     </div>
   </div>
-
+<button @click="showdata"> show</button>
   <DeletePopUp
     @cancelBtn="isDeletePopUp = false"
     v-if="isDeletePopUp"

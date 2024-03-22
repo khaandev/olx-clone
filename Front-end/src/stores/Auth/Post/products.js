@@ -42,12 +42,12 @@ export const useProductStore = defineStore("product", () => {
     }
   }
 
-  async function indexProduct(category) {
+  async function indexProduct(category,per_page,search,location,min_price,max_price) {
     try {
       isLoading.value = true;
       const response = await axios.get(
-        `/api/products?category=${category}`
-      );
+        `/api/products?category=${category}&per_page=${per_page}&search=${search}&search=${location}&min_price=${min_price}&max_price=${max_price}`
+        );
       products.value = response.data;
       isLoading.value = false;
      } catch (error) {

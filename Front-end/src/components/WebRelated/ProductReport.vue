@@ -7,6 +7,8 @@ const prop = defineProps(['selectedId'])
 import { useReportStore } from "@/stores/WebRelated/productReport";
 const emit = defineEmits(["ReportModal","cancleBtn"]);
 import ButtonPrimary from "./ButtonPrimary.vue";
+import ValidtaionError from "../common/ValidtaionError.vue";
+
 const reportResion =reactive(
   {
     resion: '',
@@ -50,12 +52,17 @@ const btn = () => {
         </svg>
       </button>
       <form @submit.prevent="formHandle">
-        <BaseInput
+        <div>
+          <BaseInput
           label="Enter Product Problem"
-          class="my-4"
           v-model="reportResion.resion"
         />
-        <ButtonPrimary text="Submit Report" />
+        <ValidtaionError field="resion" />
+        <ValidtaionError field="product_id" />
+
+        </div>
+      
+        <ButtonPrimary text="Submit Report" class="my-3"/>
       </form>
     </div>
   </PopUpLayout>

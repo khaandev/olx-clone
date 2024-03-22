@@ -1,5 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
+import { useCommonStore } from "./coman";
+const common = useCommonStore()
 import axios from "@/http/Axios";
 export const useReportStore = defineStore("report", () => {
   const reports = ref([]);
@@ -12,7 +14,7 @@ export const useReportStore = defineStore("report", () => {
       const response = await axios.get(`/api/report`);
       reports.value = response.data;
     } catch (error) {
-      validationError.value = error.response;
+      common.validationError = error.response.data.errors;
     } 
   }
 
@@ -20,14 +22,28 @@ export const useReportStore = defineStore("report", () => {
     try {
       const response = await axios.post(`/api/report`,data);
       report.value = response.data;
-     isSuccess.value = true
+     isSuccess.value = true;
+     resetValidationsErrors();
     } catch (error) {
-      isSuccess.value = false
-      validationError.value = error.response;
+      isSuccess.value = false;
+      common.validationError = error.response.data.errors;
     } 
   }
 
+  async function showReport(id) {
+    try {
+      const response = await axios.get(`/api/report/${id}`);
+      report.value = response.data;
+    } catch (error) {
+      common.validationError = error.response.data.errors;
+    } 
+  }
+  function resetValidationsErrors() {
+    common.validationError = {};
+  }
   return {
+    showReport,
+    resetValidationsErrors,
     reports,
     isSuccess,
     indexReport,

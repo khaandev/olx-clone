@@ -17,20 +17,39 @@ class ProductController extends Controller
      */
     public function index()
     {
+        $perPage = request('per_page', 5); 
+        $search = request('search');
+        $minPrice = request('min_price');
+        $maxPrice = request('max_price');
 
-        $products = Product::query()
-         ->whereHas('category', function($q) {
-        $q->where('name', 
-        request('category'));})
-        ->with('category')
-        ->with('user')->get();
+        
+        $query = Product::query()
+            ->whereHas('category', function ($q) {
+                $q->where('name', request('category'));
+            })
+            ->with('category')
+            ->with('user');
+        
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%$search%")
+                  ->orWhere('location', 'like', "%$search%");
+            });
 
-       return response()->json(
-        $products
-    );
+        }
+        if ($minPrice && $maxPrice) {
+            $query->whereBetween('price', [$minPrice, $maxPrice]);
+        } elseif ($minPrice) {
+            $query->where('price', '>=', $minPrice);
+        } elseif ($maxPrice) {
+            $query->where('price', '<=', $maxPrice);
+        }
+    
+        $products = $query->paginate($perPage);
+    
+        return response()->json($products);
     }
-
-   
+    
 
   
 

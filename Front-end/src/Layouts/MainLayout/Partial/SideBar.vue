@@ -35,13 +35,19 @@ const navigateTo = (path) => {
 
 <template>
   <div class="bg-gray-300 h-screen ">
+
+
     <div class="grid justify-center items-center">
+    <RouterLink :to="{name: 'Index'}">
+
       <img
         src="https://logos-world.net/wp-content/uploads/2022/04/OLX-Symbol.png"
         alt=""
         class="mt-10 w-[100px]"
       />
       <h1 class="text-gray-500 font-bold text-lg text-center ">Olx Clone</h1>
+  </RouterLink>
+
     </div>
     
     <div class="mt-12"> 

@@ -10,20 +10,20 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="md:mx-10 mx-5">
-    <h1 class="md:text-4xl text-2xl mb-10 mt-5" id="font">
+  <div class="md:mx-10 ">
+    <h1 class="md:text-4xl text-2xl mb-10 mt-5" id="font" v-if="product.productWithCategory?.length" >
       New Product Listed <span class="text-pink-500">in </span> Low budget
     </h1>
 
     <div id="font" v-if="product.productWithCategory.length">
       <div v-for="category in product.productWithCategory" :key="category.id">
-        <h1 class="text-xl my-2" v-if="category.productWithCategory">
+        <h1 class="text-xl my-2" v-if="product.productWithCategory?.length">
           Here Is some Latest Products In
           <span class="text-pink-500 text-2xl">{{ category.name }}</span>
         </h1>
         <div class="grid md:grid-cols-3 grid-cols-1 gap-2">
           <div
-            class="border border-gray-300 rounded shadow-md m-2 w-full"
+            class="border border-gray-300 rounded shadow-md w-full"
             id="font"
             v-for="product in category.products"
           >
@@ -63,6 +63,7 @@ onMounted(() => {
               </div>
             </div>
           </div>
+        
         </div>
       </div>
     </div>

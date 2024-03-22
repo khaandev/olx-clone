@@ -1,23 +1,16 @@
 <script setup>
-import CategoryProduct from "@/components/IndexPageComponents/CategoryProduct.vue";
 import NavBar from "@/components/WebRelated/NavBar.vue";
 import Footer from "@/components/WebRelated/Footer.vue";
 import ProductCardItem from "@/components/ProductCard/ProductCardItem.vue";
-
-
+import ImagesSlider from '@/components/WebRelated/ImagesSlider.vue'
+import CategoryProduct from "@/components/IndexPageComponents/CategoryProduct.vue";
 
 </script>
 
 <template>
   <NavBar />
   <div class="md:mx-10 mx-5">
-    <div class="my-5">
-      <img
-        src="https://images.olx.com.pk/thumbnails/436059214-800x600.webp"
-        alt=""
-        class="rounded"
-      />
-    </div>
+   <ImagesSlider />
     <CategoryProduct />
     <hr>
     <ProductCardItem />

@@ -3,31 +3,40 @@ import NavBar from "@/components/WebRelated/NavBar.vue";
 import { useProductStore } from "@/stores/Auth/Post/products";
 import { onMounted, ref } from "vue";
 const product = useProductStore();
+import Fillter from "@/components/WebRelated/Fillter.vue";
+import ButtonPrimary from "@/components/WebRelated/ButtonPrimary.vue";
+const isLoading = ref(false);
 
-
+const paginate = ref(5);
 onMounted(() => {
-  product.indexProduct("Property");
+  product.indexProduct("Property", paginate.value);
 });
 
+const loadMore = () => {
+  isLoading.value = true;
+  paginate.value += paginate.value;
+  product.indexProduct("Property", paginate.value);
+  isLoading.value = false;
 
-
+};
 </script>
 
 <template>
   <NavBar />
+  <Fillter />
   <div class="md:mx-10 mx-5">
     <h1 class="md:text-4xl text-2xl mb-10" id="font">
       Find Your Dream <span class="text-pink-500">Propertys </span> in Low budget
     </h1>
 
     <div
-      class="grid md:grid-cols-2  grid-cols-1my-5 gap-3"
+      class="grid md:grid-cols-2 grid-cols-1 my-5 gap-3"
       id="font"
-      v-if="product.products.length"
+      v-if="product.products?.data?.length"
     >
-      <div v-for="productItem in product.products" :key="productItem.id">
+      <div v-for="productItem in product.products?.data" :key="productItem.id">
         <div class="border border-gray-300 rounded shadow-md">
-          <div class="grid grid-cols-2">
+          <div class="grid md:grid-cols-2">
             <div>
               <img
                 :src="productItem.images[0]"
@@ -54,13 +63,13 @@ onMounted(() => {
               </h1>
               <hr />
               <div class="flex mt-5">
-                <RouterLink :to="{ path :`/product/detailes/${productItem.id}`}">
-                <button
-                  class="bg-gray-600 text-white py-2 px-4 rounded"
+                <RouterLink
+                  :to="{ path: `/product/detailes/${productItem.id}` }"
                 >
-                  Read More..
-                </button>
-              </RouterLink>
+                  <button class="bg-gray-600 text-white py-2 px-4 rounded">
+                    Read More..
+                  </button>
+                </RouterLink>
               </div>
             </div>
           </div>
@@ -71,8 +80,13 @@ onMounted(() => {
     <div class="flex justify-center" v-else>
       <img src="https://hhrf.in/images/nodatafound.png" alt="" />
     </div>
+    <div class="my-5" v-if="product.products.total > paginate">
+      <ButtonPrimary
+        :text="isLoading ? 'Loading...' : 'Load More'"
+        @click="loadMore"
+      />
+    </div>
   </div>
-
 </template>
 
 <style scoped>

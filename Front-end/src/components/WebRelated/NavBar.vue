@@ -4,13 +4,15 @@ import { useCommonStore } from "@/stores/WebRelated/coman";
 import ProfileDropMenuVue from "./ProfileDropMenu.vue";
 import multiselect from "@vueform/multiselect";
 import router from "@/router/index.js";
-import { onMounted, ref } from "vue";
+import { onMounted, ref,reactive } from "vue";
 const auth = useAuthStore();
-
+import { useProductStore } from "@/stores/Auth/Post/products";
+const product = useProductStore();
 const comans = useCommonStore();
 onMounted(() => {
   comans.getCitys();
 });
+const paginate = ref(5);
 
 const secoundMenuLink = ref([
   {
@@ -53,12 +55,43 @@ const secoundMenuLink = ref([
 
 const isNavOpen = ref(true)
 
+const hookState = reactive({
+      inputValue: '',
+      location: '',
+      min_price: 0,
+      mixi_price:0,
+    });
 
 const navigateTo = (path) => {
   router.push(path);
 };
 const menuItem = ref(false);
+
+const formHandle = async() => {
+
+   await  product.indexProduct(
+    "Mobile",
+    paginate.value,
+    hookState.inputValue,
+    hookState.location,
+    hookState.min_price,
+    hookState.mixi_price,
+    );
+
+}  
+
+const searchByLocation = async () => {
+   await  product.indexProduct(
+    "Mobile",
+    paginate.value,
+    hookState.inputValue,
+    hookState.location,
+    hookState.min_price,
+    hookState.mixi_price,
+    );
+}
 </script>
+
 
 <template>
   <div
@@ -106,10 +139,12 @@ const menuItem = ref(false);
       <div class="md:col-span-4 col-span-12 my-auto">
         <label for="name" class="text-gray-600 hover:cursor-pointer">
           <multiselect
+            v-model="hookState.location"
             :options="comans.cityInfo?.data"
             label="name"
             id="name"
             track-by="id"
+            @select="searchByLocation"
             :searchable="true"
             placeholder="Select Your Location"
             class="focus:border-blue-500 focus:outline-none"
@@ -118,10 +153,12 @@ const menuItem = ref(false);
           </multiselect>
         </label>
       </div>
-      <div class="md:col-span-5 col-span-12 my-auto flex">
+      <div class="md:col-span-5 col-span-12 my-auto ">
+        <form @submit.prevent="formHandle" class="flex">
+
         <input
+          v-model="hookState.inputValue"
           type="text"
-          id="searchInput"
           placeholder="Find Cars, Mobiles, And More.."
           class="w-full border border-gray-300 py-2 px-3 focus:outline-none focus:border-blue-500"
           style="transition: border-color 0.3s ease-in-out"
@@ -143,6 +180,8 @@ const menuItem = ref(false);
             />
           </svg>
         </button>
+      </form>
+
       </div>
 
       <div

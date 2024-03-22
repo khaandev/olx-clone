@@ -60,6 +60,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         //report products
         Route::get('/report', [ReportController::class, 'index']);
         Route::post('/report', [ReportController::class, 'store']);
+        Route::get('/report/{report_id}', [ReportController::class, 'show']);
+
 
 
       
