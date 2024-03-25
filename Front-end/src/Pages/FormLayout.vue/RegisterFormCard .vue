@@ -4,9 +4,8 @@ const loginGoogle = async () => {
 };
 </script>
 <template>
-  <div class="bg-gray-200 min-h-full 	">
-    <div class="flex flex-col items-center justify-center">
-      <div class="bg-white shadow rounded w-[40%] p-5  my-10">
+    <div class="flex flex-col items-center justify-center px-5 md:px-0">
+      <div class="bg-gray-100 shadow rounded md:w-[50%] w-full p-5  md:my-10 my-5 border border-gray-300">
         <p
           tabindex="0"
           class="focus:outline-none text-2xl font-extrabold leading-6 text-gray-800"
@@ -15,7 +14,7 @@ const loginGoogle = async () => {
         </p>
         <p
           tabindex="0"
-          class="focus:outline-none text-sm mt-4 font-medium leading-none text-gray-500"
+          class="focus:outline-none text-md mb-10 mt-4 font-medium leading-none text-gray-500"
         >
           i have already account 
           <RouterLink :to="{name: 'Login'}"
@@ -23,7 +22,7 @@ const loginGoogle = async () => {
           >
           <span class="text-blue-500"> Login  here</span>   </RouterLink>
         </p>
-        <button
+        <!-- <button
           @click="loginGoogle"
           aria-label="Continue with google"
           role="button"
@@ -62,10 +61,9 @@ const loginGoogle = async () => {
           <hr class="w-full bg-gray-400" />
           <p class="text-base font-medium leading-4 px-2.5 text-gray-400">OR</p>
           <hr class="w-full bg-gray-400" />
-        </div>
+        </div> -->
 
         <slot></slot>
       </div>
     </div>
-  </div>
 </template>

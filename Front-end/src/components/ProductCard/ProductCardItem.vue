@@ -10,7 +10,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="md:mx-10 ">
+  <div class="md:mx-10 my-5 ">
     <h1 class="md:text-4xl text-2xl mb-10 mt-5" id="font" v-if="product.productWithCategory?.length" >
       New Product Listed <span class="text-pink-500">in </span> Low budget
     </h1>

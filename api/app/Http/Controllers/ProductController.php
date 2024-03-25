@@ -18,10 +18,10 @@ class ProductController extends Controller
     public function index()
     {
         $perPage = request('per_page', 5); 
-        $search = request('search');
+        $searchTitle = request('search_title');
+        $searchLocation = request('search_location');
         $minPrice = request('min_price');
         $maxPrice = request('max_price');
-
         
         $query = Product::query()
             ->whereHas('category', function ($q) {
@@ -29,14 +29,15 @@ class ProductController extends Controller
             })
             ->with('category')
             ->with('user');
-        
-        if ($search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('title', 'like', "%$search%")
-                  ->orWhere('location', 'like', "%$search%");
-            });
-
+            
+        if ($searchTitle) {
+            $query->where('title', 'like', "%$searchTitle%");
         }
+        
+        if ($searchLocation) {
+            $query->where('location', 'like', "%$searchLocation%");
+        }
+    
         if ($minPrice && $maxPrice) {
             $query->whereBetween('price', [$minPrice, $maxPrice]);
         } elseif ($minPrice) {
@@ -50,13 +51,13 @@ class ProductController extends Controller
         return response()->json($products);
     }
     
+    
 
   
 
     public function myAdds()
 {
     $user = auth()->user();
-    
     $products = Product::where('user_id', $user->id)->get();
 
     return response()->json(

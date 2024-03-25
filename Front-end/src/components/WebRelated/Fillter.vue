@@ -15,7 +15,8 @@ const hookState = reactive({
  
 const handleForm = () => {
 
-  product.indexProduct("Mobile", 
+  product.indexProduct(
+  product.currentCategory, 
   paginate.value,
   hookState.inputValue,
   hookState.location,

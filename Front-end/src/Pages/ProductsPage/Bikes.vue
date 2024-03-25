@@ -1,30 +1,69 @@
 <script setup>
 import NavBar from "@/components/WebRelated/NavBar.vue";
 import { useProductStore } from "@/stores/Auth/Post/products";
-import { onMounted, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 const product = useProductStore();
 import Fillter from "@/components/WebRelated/Fillter.vue";
 import ButtonPrimary from "@/components/WebRelated/ButtonPrimary.vue";
-const isLoading = ref(false);
+import { useAuthStore } from "@/stores/Auth/Auth";
+import { useReportStore } from "@/stores/WebRelated/productReport";
+const auth = useAuthStore();
+const report = useReportStore();
+
+import LoadinSpiner from "@/components/WebRelated/LoadinSpiner.vue";
 
 const paginate = ref(5);
+const hookState = reactive({
+  inputValue: "",
+  location: "",
+  min_price: 0,
+  mixi_price: 0,
+});
+const currentUserReport = ref(null);
+
 onMounted(() => {
-  product.indexProduct("Bike", paginate.value);
+  report.indexReport();
+  product.indexProduct(
+    "Bike",
+    paginate.value,
+    hookState.inputValue,
+    hookState.location,
+    hookState.min_price,
+    hookState.mixi_price
+  );
 });
 
 const loadMore = () => {
-  isLoading.value = true;
   paginate.value += paginate.value;
-  product.indexProduct("Bike", paginate.value);
-  isLoading.value = false;
-
+  product.indexProduct(
+    "Bike",
+    paginate.value,
+    hookState.inputValue,
+    hookState.location,
+    hookState.min_price,
+    hookState.mixi_price
+  );
 };
+
+const detailes = (id) => {
+  const currentUserReportValue = report.reports.find(
+    (report) =>
+      report.user_id === auth.userInfo.user.id && report.product_id === id
+  );
+  if (currentUserReportValue) {
+    currentUserReport.value = true;
+  }
+};
+
 </script>
 
 <template>
   <NavBar />
   <Fillter />
-  <div class="md:mx-10 mx-5">
+
+  <LoadinSpiner v-if="product.isLoading" />
+
+  <div class="md:mx-10 mx-5" v-else>
     <h1 class="md:text-4xl text-2xl mb-10" id="font">
       Find Your Dream <span class="text-pink-500">Bikes </span> in Low budget
     </h1>
@@ -64,9 +103,12 @@ const loadMore = () => {
               <hr />
               <div class="flex mt-5">
                 <RouterLink
-                  :to="{ path: `/product/detailes/${productItem.id}` }"
+                  :to="{ path: `/product/detailes/${productItem.id}`, query: { currentUserReport: currentUserReport }}"
                 >
-                  <button class="bg-gray-600 text-white py-2 px-4 rounded">
+                  <button
+                    class="bg-gray-600 text-white py-2 px-4 rounded"
+                    @click="detailes(productItem.id)"
+                  >
                     Read More..
                   </button>
                 </RouterLink>
@@ -82,7 +124,7 @@ const loadMore = () => {
     </div>
     <div class="my-5" v-if="product.products.total > paginate">
       <ButtonPrimary
-        :text="isLoading ? 'Loading...' : 'Load More'"
+        :text="product.isLoading ? 'Loading...' : 'Load More'"
         @click="loadMore"
       />
     </div>

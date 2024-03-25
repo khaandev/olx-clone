@@ -1,5 +1,6 @@
 <script setup>
 import { ref, defineEmits, onMounted } from "vue";
+import LoadinSpiner from '@/components/WebRelated/LoadinSpiner.vue';
 const emit = defineEmits(["modelClose"]);
 import { useProductStore } from "@/stores/Auth/Post/products";
 import { useAuthStore } from "@/stores/Auth/Auth";
@@ -19,9 +20,13 @@ const favorite = useFavoriteStore();
 import { useReportStore } from "@/stores/WebRelated/productReport";
 const report = useReportStore()
 
+const route = useRoute();
+
+const currentUserReport = route.query.currentUserReport;
 
 const auth = useAuthStore();
 const isModalOpen = ref(false);
+
 const openEmail = () => {
   const emailAddress = product.product.user.email;
   const subject = "Subject of the email";
@@ -48,7 +53,6 @@ const mobielClicked = () => {
 
 const clickefav = async (id) => {
   fav.value = !fav.value;
-
   await favorite.storeFavorite(id);
 };
 
@@ -57,6 +61,7 @@ const deleteProductItem = async (id) => {
   selectedId.value = id;
   isDeletePopUp.value = true;
 };
+
 const deleteBtn = async () => {
   await product.deleteProduct(selectedId.value);
   isDeletePopUp.value = false;
@@ -64,36 +69,56 @@ const deleteBtn = async () => {
   if (product.isMessage) {
     router.go(-1);
   }
+
 };
 
 onMounted(() => {
   category.indexCategory();
+  report.indexReport();
   const route = useRoute();
   const productId = route.params.id;
   product.showProduct(productId);
+
 });
 
 const UpdateProductItem = async (id) => {
   selectedId.value = id;
   isModalOpen.value = true;
+
 };
+
 const goBack = () => {
   router.go(-1);
 };
 
-const clickReport = async (id) => {
+const clickReport =  (id) => {
   selectedId.value = id;
   isReportModal.value = true;
-  await report.showReport(selectedId.value);
-  console.log('hy');
 
 }
+const ReportModal = () => {
+  if (report.isSuccess) {
+    router.push({name: 'MyReported'});
+  }
+
+}
+
 </script>
 
 <template>
   <NavBar />
+
+
+
+
+<div v-if="product.isLoading">
+  <LoadinSpiner />
+
+</div>
+  <div v-else>
+
   <div class="mt-5 bg-gray-200 text-gray-00">
-    <button class="flex gap-2 mx-10 py-3" @click="goBack">
+    <button class="flex gap-2 md:mx-10 mx-5 py-3" @click="goBack">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
@@ -111,10 +136,10 @@ const clickReport = async (id) => {
   </div>
 
   <div class="text-gray-700" v-if="product.validation?.statusText">
-    <h1 class="text-xl mt-5 mx-10">No Product Detailes</h1>
+    <h1 class="text-xl mt-5 md:mx-10 mx-5">No Product Detailes</h1>
   </div>
 
-  <div class="mx-10 my-5 bg-gray-100 rounded-md" v-else>
+  <div class="mx:mx-10 mx-5 my-5 bg-gray-100 rounded-md" v-else>
     <div class="grid md:grid-cols-12 gap-5 p-5">
       <div class="md:col-span-8 col-span-12">
         <div>
@@ -283,12 +308,8 @@ const clickReport = async (id) => {
               </div>
               <div class="flex justify-center">
                 <button @click="clickReport(product.product.id)"
-                
-                 :class="
-                      report.reports?.user_id === auth.userInfo.user.id &&  report.reports?.product_id === product.product?.id
-                        ? 'text-red-500'
-                        : 'text-black'
-                    ">
+                :class="currentUserReport ? 'text-red-500' : 'text-black'"                
+                > 
 
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -322,19 +343,23 @@ const clickReport = async (id) => {
       </div>
     </div>
   </div>
-<button @click="showdata"> show</button>
   <DeletePopUp
-    @cancelBtn="isDeletePopUp = false"
+    @cancelBtn="isDeletePopUp = false;"
     v-if="isDeletePopUp"
     @deleteBtn="deleteBtn"
   />
   <UpdateProdect
     v-if="isModalOpen"
     :selectedId="selectedId"
-    @modalCancel="isModalOpen = false"
-    @modalupdate="isModalOpen = false"
+    @modalCancel="isModalOpen = false;"
+   
   />
-<ProductReport v-if="isReportModal"  @cancleBtn="isReportModal=false"  :selectedId="selectedId" @ReportModal="isReportModal=false"/>
+<ProductReport v-if="isReportModal && !currentUserReport" 
+ @cancleBtn="isReportModal=false;" 
+  :selectedId="selectedId"
+   @ReportModal="ReportModal"/>
+</div>
+
 </template>
 
 <style scoped>

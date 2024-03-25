@@ -38,6 +38,12 @@ const router = createRouter({
       meta: { requiresAuth: true , user: true},
       component: () => import("@/Pages/Auth/MyFavorites.vue"),
     },
+    {
+      path: "/my/reported",
+      name: "MyReported",
+      meta: { requiresAuth: true , user: true},
+      component: () => import("@/Pages/Auth/MyReported.vue"),
+    },
     
 
     //product pages here

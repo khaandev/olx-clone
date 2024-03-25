@@ -4,6 +4,7 @@ import router from "@/router/index.js";
 import { useAuthStore } from "@/stores/Auth/Auth";
 
 const auth = useAuthStore();
+
 const dropDown = ref([
   {
     id: 1,
@@ -11,7 +12,6 @@ const dropDown = ref([
     icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
         <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" clip-rule="evenodd" /></svg>`,
     path: "/profile/info",
-    Active: false,
   },
   {
     id: 2,
@@ -21,7 +21,6 @@ const dropDown = ref([
 </svg>
 `,
     path: "/myAdds",
-    Active: false,
   },
   {
     id: 3,
@@ -31,16 +30,26 @@ const dropDown = ref([
 </svg>
 `,
     path: "/myFavorites",
-    Active: false,
   },
-  
+  {
+    id: 3,
+    text: "My Reported",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+  <path fill-rule="evenodd" d="M3 2.25a.75.75 0 0 1 .75.75v.54l1.838-.46a9.75 9.75 0 0 1 6.725.738l.108.054A8.25 8.25 0 0 0 18 4.524l3.11-.732a.75.75 0 0 1 .917.81 47.784 47.784 0 0 0 .005 10.337.75.75 0 0 1-.574.812l-3.114.733a9.75 9.75 0 0 1-6.594-.77l-.108-.054a8.25 8.25 0 0 0-5.69-.625l-2.202.55V21a.75.75 0 0 1-1.5 0V3A.75.75 0 0 1 3 2.25Z" clip-rule="evenodd" />
+</svg>
+
+`,
+    path: "/my/reported",
+  },
 ]);
+
 const navigateTo = (path) => {
   dropDown.value.forEach((item) => {
     item.Active = item.path === path;
   });
 
   router.push(path);
+  
 };
 
 const logoutAuth = async () => {
@@ -49,19 +58,22 @@ const logoutAuth = async () => {
     router.push({ name: "Login" });
   }
 };
+
 </script>
 
 <template>
   <div
-    class="bg-white p-2 absolute w-[150px]  md:w-[200px] top-14 md:right-0  rounded-md shadow-lg"
+    class="bg-white p-2 absolute w-[150px] md:w-[200px] top-14 md:right-0 rounded-md shadow-lg"
   >
     <div class="my-2">
       <p class="font-mono text-left text-sm">Hello.</p>
-      <h1 class="text-md font-bold text-left text-sm">{{ auth.userInfo.user.name }}</h1>
+      <h1 class="text-md font-bold text-left text-sm">
+        {{ auth.userInfo.user.name }}
+      </h1>
     </div>
 
     <hr />
-    <ul class="my-3  md:gap-0 gap-3" v-if="auth.userInfo?.user?.role === 'user'">
+    <ul class="my-3 md:gap-0 gap-3" v-if="auth.userInfo?.user?.role === 'user'">
       <li
         v-for="item in dropDown"
         :key="item.id"

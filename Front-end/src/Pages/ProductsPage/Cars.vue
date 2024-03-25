@@ -1,30 +1,65 @@
 <script setup>
 import NavBar from "@/components/WebRelated/NavBar.vue";
 import { useProductStore } from "@/stores/Auth/Post/products";
-import { onMounted, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 const product = useProductStore();
 import Fillter from "@/components/WebRelated/Fillter.vue";
 import ButtonPrimary from "@/components/WebRelated/ButtonPrimary.vue";
+
+import LoadinSpiner from '@/components/WebRelated/LoadinSpiner.vue';
+
 const isLoading = ref(false);
 
 const paginate = ref(5);
-onMounted(() => {
-  product.indexProduct("Car", paginate.value);
+const hookState = reactive({
+      inputValue: '',
+      location: '',
+      min_price: 0,
+      mixi_price:0,
+
 });
+onMounted(() => {
+  isLoading.value = true;
+  product.indexProduct("Car", 
+  paginate.value,
+  hookState.inputValue,
+  hookState.location,
+  hookState.min_price,
+  hookState.mixi_price,
+
+  );
+  isLoading.value = false;
+
+});
+
+
+
 
 const loadMore = () => {
   isLoading.value = true;
   paginate.value += paginate.value;
-  product.indexProduct("Car", paginate.value);
+  product.indexProduct(
+  "Car", 
+  paginate.value,
+  hookState.inputValue,
+  hookState.location,
+  hookState.min_price,
+  hookState.mixi_price,
+  );
+
   isLoading.value = false;
 
 };
+
 </script>
 
 <template>
   <NavBar />
   <Fillter />
-  <div class="md:mx-10 mx-5">
+
+  <LoadinSpiner v-if="isLoading" />
+  
+  <div class="md:mx-10 mx-5" v-else>
     <h1 class="md:text-4xl text-2xl mb-10" id="font">
       Find Your Dream <span class="text-pink-500">Cars </span> in Low budget
     </h1>
@@ -64,7 +99,7 @@ const loadMore = () => {
               <hr />
               <div class="flex mt-5">
                 <RouterLink
-                  :to="{ path: `/product/detailes/${productItem.id}` }"
+                  :to="{ path: `/product/detailes/${productItem.id}` } "
                 >
                   <button class="bg-gray-600 text-white py-2 px-4 rounded">
                     Read More..
@@ -87,6 +122,9 @@ const loadMore = () => {
       />
     </div>
   </div>
+
+
+  
 </template>
 
 <style scoped>

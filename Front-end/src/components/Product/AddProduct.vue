@@ -7,9 +7,9 @@ import { onMounted, reactive, ref } from "vue";
 import ButtonPrimary from "../WebRelated/ButtonPrimary.vue";
 import { useProductStore } from "@/stores/Auth/Post/products";
 import ValidtaionError from "../common/ValidtaionError.vue";
-import router from "@/router";
 const product = useProductStore();
 const { isLoading } = useProductStore();
+import successMsg from '@/components/WebRelated/SuccessMsg.vue';
 
 const state = useCommonStore();
 const category = useCategoryStore();
@@ -24,6 +24,13 @@ const productState = reactive({
   description: "",
 });
 
+const initialProductState = {
+  category: "",
+  location: "",
+  title: "",
+  price: "",
+  description: "",
+};
 onMounted(() => {
   category.indexCategory();
 });
@@ -32,6 +39,10 @@ const ImagesChange = async (event) => {
   selectedImages.value = Array.from(files);
 };
 
+const clearInputFields = () => {
+  Object.assign(productState, initialProductState);
+  selectedImages.value = [];
+};
 const handleSubmit = async () => {
   const formData = new FormData();
   formData.append("category_id", productState.category);
@@ -46,13 +57,17 @@ const handleSubmit = async () => {
 
   await product.storeProduct(formData);
 
-  // if (product.isMessage == "Product added successfully") {
-  //   router.push({ name: "MyAdds" });
-  // }
+  if (product.isMessage) {
+    clearInputFields();
+  }
 };
 </script>
 
 <template>
+  <div class="grid  justify-end relative" id="msg" v-if="product.isMessage">
+    <successMsg />
+  </div>
+  
   <div class="flex justify-center">
     <div class="md:w-[50%] w-full my-10 bg-gray-100 p-5 rounded-md">
       <form
@@ -152,4 +167,11 @@ const handleSubmit = async () => {
       </form>
     </div>
   </div>
+
 </template>
+<style scoped>
+#msg {
+  position: fixed;
+  right: 20px; /* Adjutt as needed */
+}
+</style>

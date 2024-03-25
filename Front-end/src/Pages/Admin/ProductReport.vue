@@ -11,7 +11,7 @@ onMounted(() => {
 
 <template>
   <MainLayout>
-    <div class="m-5 bg-gray-100 p-5 rounded-sm">
+    <div class="m-5 bg-gray-100 p-5 rounded-sm" v-if="report.reports.length">
       <div v-for="reportProduct in report.reports">
         <div class="border border-pink-500 p-5 rounded mb-5">
           <div class="mb-4">
@@ -159,5 +159,10 @@ onMounted(() => {
         </div>
       </div>
     </div>
+    <div v-else class="m-5">
+<h1 class="text-2xl text-gray-700">No  <span class="text-pink-500">Reported</span> Product !</h1>
+    </div>
   </MainLayout>
 </template>
+
+

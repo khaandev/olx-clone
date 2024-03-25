@@ -59,8 +59,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
       
         //report products
         Route::get('/report', [ReportController::class, 'index']);
+        Route::get('/my/report', [ReportController::class, 'myReport']);
         Route::post('/report', [ReportController::class, 'store']);
         Route::get('/report/{report_id}', [ReportController::class, 'show']);
+        Route::delete('/report/{reportId}', [ReportController::class, 'destroy']);
+
 
 
 

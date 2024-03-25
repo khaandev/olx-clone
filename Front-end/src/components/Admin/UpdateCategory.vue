@@ -3,6 +3,7 @@ import { onMounted, reactive, ref } from "vue";
 import BaseInput from "../WebRelated/BaseInput.vue";
 import ButtonPrimary from "../WebRelated/ButtonPrimary.vue";
 import { useCategoryStore } from "@/stores/Auth/Post/category";
+import ValidtaionError from "../common/ValidtaionError.vue";
 
 import { defineEmits, defineProps } from "vue";
 import PopUpLayout from "@/Layouts/PopUpLayout.vue";
@@ -21,7 +22,7 @@ const handleForm = async () => {
   };
   await category.updateCategory(prop.selectedId, data);
 
-  if (category.isMessage == "Category updated successfully") {
+  if (category.isSucces) {
     emit("updateCategory");
   }
 };
@@ -47,8 +48,11 @@ category.$subscribe((mutation, state) => {
       </div>
 
       <form action="" @submit.prevent="handleForm">
-        <BaseInput label="Enter Category" v-model="stateCategory.name" />
-
+        <div>
+          <BaseInput label="Enter Category" v-model="stateCategory.name" />
+        <ValidtaionError field="name" />
+        </div>
+        
         <ButtonPrimary text="Update" class="mt-5" />
       </form>
     </div>

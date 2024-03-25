@@ -21,6 +21,19 @@ class ReportController extends Controller
 
         }
 
+        public function myReport()
+        {
+            $user = auth()->user();
+        
+            // Eager load the product and user relationships with the reports
+            $myReports = Report::with('product', 'product.user')
+                ->where('user_id', $user->id)
+                ->get();
+        
+            return response()->json($myReports);
+        }
+        
+
     /**
      * Show the form for creating a new resource.
      */
@@ -46,7 +59,7 @@ public function store(Request $request)
 
     $user = Auth::user();
     $productReport = Product::findOrFail($request->product_id);  
-         
+    
     $existingReport = Report::where('user_id', $user->id)
                             ->where('product_id', $productReport->id)
                             ->first();
@@ -54,6 +67,7 @@ public function store(Request $request)
     if ($existingReport) {
         return response()->json(['errors' => ['product_id' => 'You have already reported this product']], 422);
     }   
+
     $reportProduct = Report::create([
         'user_id' => $user->id,
         'product_id' => $productReport->id,
@@ -68,21 +82,7 @@ public function store(Request $request)
      */
     public function show(string $id)
     {
-        try {
-    $user = Auth::user();
-
-            $report = Report::with(['product', 'user'])->findOrFail($id);
-
-            $existingReport = Report::where('user_id', $user->id)
-            ->where('product_id', $productReport->id)
-            ->first();
-
-            return response()->json($report);
-
-        } catch (ModelNotFoundException $exception) {
-            // Report not found, return a 404 response
-            return response()->json(['message' => 'Report not found'], 404);
-        }
+       //
     }
     
 
@@ -107,6 +107,12 @@ public function store(Request $request)
      */
     public function destroy(string $id)
     {
-        //
+       // Find the product by ID
+    $report = Report::findOrFail($id);
+    $report->delete();
+
+    return response()->json([
+        'message' => 'Product deleted successfully',
+    ]);
     }
 }

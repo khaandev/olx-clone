@@ -31,30 +31,18 @@ const handleForm  = async () => {
 };
 </script>
 <template>
-    <div class=" px-10">
-        <div class="px-40 my-10 ">
+    <div class=" md:px-10 px-5">
+        <div class="md:px-40 px-0 my-10 ">
     <div class="bg-gray-100 border border-gray-300 p-5 rounded-lg shadow-lg">
       <div>
         <h1 class="text-xl font-bold mb-5">Edit profile</h1>
         <h2 class="text-sm font-bold mb-3">Profile Photo</h2>
 
-        <div class="flex gap-5">
-          <div class="my-auto">
-            <img
-              src="https://www.olx.com.pk/assets/iconProfilePicture.7975761176487dc62e25536d9a36a61d.png"
-              alt=""
-              class="w-[100px]"
-            />
-          </div>
-          <div class="my-auto">
-            <ButtonPrimary text="Uplode Image" class="bg-gray-700 py-3" />
-            <p class="text-sm mt-3">* JPG, JPEG, PNG Min: 400px, Max: 1024px</p>
-          </div>
-        </div>
+     
       </div>
 
       <form action="" @submit.prevent="handleForm">
-     <div class="grid grid-cols-2 gap-5 mt-10">
+     <div class="grid md:grid-cols-2 grid-cols-1 gap-5 mt-10">
 
 
       <BaseInput  type="text" title="name"  v-model="authInfo.name" />

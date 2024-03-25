@@ -70,7 +70,7 @@ const menuItem = ref(false);
 const formHandle = async() => {
 
    await  product.indexProduct(
-    "Mobile",
+    product.currentCategory,
     paginate.value,
     hookState.inputValue,
     hookState.location,
@@ -82,7 +82,7 @@ const formHandle = async() => {
 
 const searchByLocation = async () => {
    await  product.indexProduct(
-    "Mobile",
+    product.currentCategory,
     paginate.value,
     hookState.inputValue,
     hookState.location,

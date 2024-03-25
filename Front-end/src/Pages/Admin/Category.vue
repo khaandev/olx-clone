@@ -8,55 +8,49 @@ import UpdateCategory from "@/components/Admin/UpdateCategory.vue";
 import PopUpLayout from "@/Layouts/PopUpLayout.vue";
 import AddCategory from "@/components/Admin/AddCategory.vue";
 import DeletePopUp from "@/components/WebRelated/DeletePopUp.vue";
+import SuccessMsg from "@/components/WebRelated/SuccessMsg.vue";
 onMounted(() => {
   category.indexCategory();
 });
 
-const selectedId = ref(null)
-const isModalOpen = ref(false)
-const isModalUpdate = ref(false)
-const isModalDelete = ref(false)
-
+const selectedId = ref(null);
+const isModalOpen = ref(false);
+const isModalUpdate = ref(false);
+const isModalDelete = ref(false);
 
 const openModal = () => {
   isModalOpen.value = true;
+};
 
-}
-const closeModal = () => {
-  isModalOpen.value = false;
-
-}
 const updateCat = async (id) => {
-   selectedId.value = id,
-  isModalUpdate.value = true;
+  (selectedId.value = id), (isModalUpdate.value = true);
   await category.showCategory(selectedId.value);
-  
-}
+};
 const deleteCategory = (id) => {
-  isModalDelete.value = true
   selectedId.value = id;
-  
-}
+  isModalDelete.value = true;
+  console.log(isModalDelete.value);
+};
 const categoryDelete = async () => {
+  await category.deleteCategory(selectedId.value);
 
-await category.deleteCategory(selectedId.value);
-
-if(category.isMessage == 'Category deleted successfully')
-{
-  isModalDelete.value=false;
-}
-
-}
-
-
-
+  if (category.isSucces) {
+    isModalDelete.value = false;
+  }
+};
 </script>
 
 <template>
   <MainLayout>
-    <div class="m-5" >
+    <div class="grid justify-end relative" id="msg" v-if="category.isMessage">
+      <successMsg />
+    </div>
+    <div class="m-5">
       <div class="mb-5">
-        <button class="bg-blue-500 text-white py-2 px-4 rounded flex gap-2" @click="openModal">
+        <button
+          class="bg-blue-500 text-white py-2 px-4 rounded flex gap-2"
+          @click="openModal"
+        >
           Add Category
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -90,17 +84,19 @@ if(category.isMessage == 'Category deleted successfully')
           </tr>
         </thead>
         <tbody>
-          <tr v-for="categoryItem in category.categories" :key="categoryItem.id"
+          <tr
+            v-for="categoryItem in category.categories"
+            :key="categoryItem.id"
             class="bg-white lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0"
           >
             <td
               class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static"
             >
-             {{ categoryItem.name }}
+              {{ categoryItem.name }}
             </td>
 
             <td
-              class="w-full lg:w-auto p-3 text-gray-800  border border-b text-center block lg:table-cell relative lg:static"
+              class="w-full lg:w-auto p-3 text-gray-800 border border-b text-center block lg:table-cell relative lg:static"
             >
               <span
                 class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase"
@@ -120,7 +116,6 @@ if(category.isMessage == 'Category deleted successfully')
                       clip-rule="evenodd"
                     />
                   </svg>
-
                 </button>
                 <button @click="deleteCategory(categoryItem.id)">
                   <svg
@@ -143,15 +138,30 @@ if(category.isMessage == 'Category deleted successfully')
       </table>
     </div>
 
-
-    <PopUpLayout  v-if="isModalOpen">
-  <AddCategory  @categoryAdded="closeModal" @close="isModalOpen=false"/>
+    <PopUpLayout v-if="isModalOpen">
+      <AddCategory
+        @categoryAdded="isModalOpen = false"
+        @close="isModalOpen = false"
+      />
     </PopUpLayout>
 
-    <DeletePopUp v-if="isModalDelete  && category.category" @cancelBtn="isModalDelete = false " @deleteBtn="categoryDelete"/>
+    <DeletePopUp
+      v-if="isModalDelete"
+      @cancelBtn="isModalDelete = false"
+      @deleteBtn="categoryDelete"
+    />
 
-    <updateCategory  v-if="isModalUpdate && category.category" @close="isModalUpdate=false" @updateCategory="isModalUpdate=false" :selectedId="selectedId"/>
+    <updateCategory
+      v-if="isModalUpdate && category.category"
+      @close="isModalUpdate = false"
+      @updateCategory="isModalUpdate = false"
+      :selectedId="selectedId"
+    />
   </MainLayout>
-
-  
 </template>
+<style scoped>
+#msg {
+  position: fixed;
+  right: 20px; /* Adjutt as needed */
+}
+</style>
