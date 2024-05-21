@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('location');
             $table->string('title');
-            $table->decimal('price');
+            $table->string('price');
             $table->string('description');
             $table->json('images');
             $table->timestamps();

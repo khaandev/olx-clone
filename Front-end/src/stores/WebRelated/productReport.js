@@ -52,13 +52,13 @@ export const useReportStore = defineStore("report", () => {
 
   async function deletereporte(id) {
     try {
-      const res = await axios.delete(`/api/report/${id}`);
-      report.value = res.data;
+      await axios.delete(`/api/report/${id}`);
+      myReports.value = myReports.value.filter(report => report.id !== id);
     } catch(error) {
-       if (error.response) {
-        common.validationError = error?.response?.data?.errors;
+      if (error.response) {
+        common.validationError = error.response.data.errors;
       } else {
-        console.log("some thing went Worng");
+        console.log("Something went wrong");
       }
     }
   }

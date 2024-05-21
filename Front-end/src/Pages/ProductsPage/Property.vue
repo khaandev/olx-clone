@@ -5,50 +5,59 @@ import { onMounted, reactive, ref } from "vue";
 const product = useProductStore();
 import Fillter from "@/components/WebRelated/Fillter.vue";
 import ButtonPrimary from "@/components/WebRelated/ButtonPrimary.vue";
+import { useAuthStore } from "@/stores/Auth/Auth";
+import { useReportStore } from "@/stores/WebRelated/productReport";
+import useTimeAgo from "@/Composables/useTimeAgo";
+const { formatTimeAgo ,truncateDescription} = useTimeAgo();
 
-import LoadinSpiner from '@/components/WebRelated/LoadinSpiner.vue';
 
-const isLoading = ref(false);
+const auth = useAuthStore();
+const report = useReportStore();
+
+import LoadinSpiner from "@/components/WebRelated/LoadinSpiner.vue";
 
 const paginate = ref(5);
 const hookState = reactive({
-      inputValue: '',
-      location: '',
-      min_price: 0,
-      mixi_price:0,
-
+  inputValue: "",
+  location: "",
+  min_price: 0,
+  mixi_price: 0,
 });
+const currentUserReport = ref(null);
+
 onMounted(() => {
-  isLoading.value = true;
-  product.indexProduct("Property", 
-  paginate.value,
-  hookState.inputValue,
-  hookState.location,
-  hookState.min_price,
-  hookState.mixi_price,
-
+  report.indexReport();
+  product.indexProduct(
+    "Property",
+    paginate.value,
+    hookState.inputValue,
+    hookState.location,
+    hookState.min_price,
+    hookState.mixi_price
   );
-  isLoading.value = false;
-
 });
-
-
-
 
 const loadMore = () => {
-  isLoading.value = true;
   paginate.value += paginate.value;
   product.indexProduct(
-  "Property", 
-  paginate.value,
-  hookState.inputValue,
-  hookState.location,
-  hookState.min_price,
-  hookState.mixi_price,
+    "Property",
+    paginate.value,
+    hookState.inputValue,
+    hookState.location,
+    hookState.min_price,
+    hookState.mixi_price
   );
+ };
 
-  isLoading.value = false;
 
+const detailes = (id) => {
+  const currentUserReportValue = report.reports.find(
+    (report) =>
+      report.user_id === auth.userInfo.user.id && report.product_id === id
+  );
+  if (currentUserReportValue) {
+    currentUserReport.value = true;
+  }
 };
 
 </script>
@@ -57,8 +66,8 @@ const loadMore = () => {
   <NavBar />
   <Fillter />
 
-  <LoadinSpiner v-if="isLoading" />
-  
+  <LoadinSpiner v-if="product.isLoading" />
+
   <div class="md:mx-10 mx-5" v-else>
     <h1 class="md:text-4xl text-2xl mb-10" id="font">
       Find Your Dream <span class="text-pink-500">Propertys </span> in Low budget
@@ -82,26 +91,33 @@ const loadMore = () => {
             <div class="m-5">
               <h1 class="font-bold mb-3">
                 PKR :
-                <span class="text-blue-500"> {{ productItem.price }}</span>
+                <span class="text-blue-500 text-sm"> {{ productItem.price }}</span>
               </h1>
               <h1 class="font-bold mb-1">
                 Title :
-                <span class="text-blue-500"> {{ productItem.title }}</span>
+                <span class="text-blue-500  text-sm"> {{ productItem.title }}</span>
               </h1>
               <h1 class="text-gray-800 mb-1 font-bold">
                 Description :
-                <span class="text-blue-500">{{ productItem.description }}</span>
+                <span class="text-blue-500  text-sm">{{ truncateDescription(productItem.description) }}</span>
               </h1>
               <h1 class="text-gray-800 text-md font-bold mb-2">
                 Location :
-                <span class="text-blue-500">{{ productItem.location }}</span>
+                <span class="text-blue-500  text-sm">{{ productItem.location }}</span>
+              </h1>
+              <h1 class="text-gray-800 text-md font-bold mb-2">
+               
+                <span class="text-gray-500  text-sm">{{formatTimeAgo(productItem.created_at) }}</span>
               </h1>
               <hr />
               <div class="flex mt-5">
                 <RouterLink
-                  :to="{ path: `/product/detailes/${productItem.id}` } "
+                  :to="{ path: `/product/detailes/${productItem.id}`, query: { currentUserReport: currentUserReport }}"
                 >
-                  <button class="bg-gray-600 text-white py-2 px-4 rounded">
+                  <button
+                    class="bg-gray-600 text-white py-2 px-4 rounded"
+                    @click="detailes(productItem.id)"
+                  >
                     Read More..
                   </button>
                 </RouterLink>
@@ -117,14 +133,11 @@ const loadMore = () => {
     </div>
     <div class="my-5" v-if="product.products.total > paginate">
       <ButtonPrimary
-        :text="isLoading ? 'Loading...' : 'Load More'"
+        :text="product.isLoading ? 'Loading...' : 'Load More'"
         @click="loadMore"
       />
     </div>
   </div>
-
-
-  
 </template>
 
 <style scoped>

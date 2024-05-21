@@ -173,7 +173,7 @@ const ReportModal = () => {
             />
             <h2 class="my-auto">
               Name :
-              <span class="text-blue-500">
+              <span class="text-gray-500 text-sm">
                 {{ product.product?.user?.name }}
               </span>
             </h2>
@@ -181,16 +181,16 @@ const ReportModal = () => {
           <div class="border mt-5 p-2">
             <h2 class="my-auto mb-2">
               Price :
-              <span class="text-blue-500">{{ product.product?.price }} </span>
+              <span class="text-gray-500 text-sm">{{ product.product?.price }} </span>
             </h2>
             <h2 class="my-auto mb-2">
-              Title :<span class="text-blue-500">
+              Title :<span class="text-gray-500 text-sm">
                 {{ product.product?.title }}
               </span>
             </h2>
             <h2 class="my-auto mb-2">
               Description :
-              <span class="text-blue-500">{{
+              <span class="text-gray-500 text-sm">{{
                 product.product?.description
               }}</span>
             </h2>
@@ -236,7 +236,7 @@ const ReportModal = () => {
           </div>
           <div class="border mt-5" v-else-if="!auth.userInfo?.user?.id">
             <RouterLink :to="{ name : 'Login' }">
-            <div class="grid grid-cols-1 bg-blue-500 text-white p-2">
+            <div class="grid grid-cols-1 bg-gray-500 text-sm text-white p-2">
               
              
               <div class="flex justify-center">

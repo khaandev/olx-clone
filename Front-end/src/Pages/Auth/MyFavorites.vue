@@ -25,31 +25,31 @@ onMounted(() => {
       id="font"
       v-if="favorite.favorites.length">
       <div v-for="favoriteItem in favorite.favorites" :key="favoriteItem.id">
-        <div class="border border-gray-400 rounded shadow-md shadow-gray-500">
+        <div class="border border-gray-300 rounded shadow-md">
           <div class="grid grid-cols-2">
             <div>
               <img
                 :src="favoriteItem.product.images[0]"
                 alt=""
-                class="h-[250px] object-cover w-full"
+                class="object-cover w-full h-full"
               />
             </div>
             <div class="m-5">
               <h1 class="font-bold mb-3">
                 PKR :
-                <span class="text-blue-500"> {{ favoriteItem.product.price }}</span>
+                <span class="text-gray-500 text-sm"> {{ favoriteItem.product.price }}</span>
               </h1>
               <h1 class="font-bold mb-1">
                 Title :
-                <span class="text-blue-500"> {{ favoriteItem.product.title }}</span>
+                <span class="text-gray-500 text-sm"> {{ favoriteItem.product.title }}</span>
               </h1>
               <h1 class="text-gray-800 mb-1 font-bold">
                 Description :
-                <span class="text-blue-500">{{ favoriteItem.product.description }}</span>
+                <span class="text-gray-500 text-sm">{{ favoriteItem.product.description }}</span>
               </h1>
               <h1 class="text-gray-800 text-md font-bold mb-2">
                 Location :
-                <span class="text-blue-500">{{ favoriteItem.product.location }}</span>
+                <span class="text-gray-500 text-sm">{{ favoriteItem.product.location }}</span>
               </h1>
               <hr />
               <div class="flex mt-5">

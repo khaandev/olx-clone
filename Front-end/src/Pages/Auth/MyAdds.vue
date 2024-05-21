@@ -22,31 +22,31 @@ onMounted(() => {
         v-if="myProduct.myProducts.length"
       >
         <div v-for="productItem in myProduct.myProducts" :key="productItem.id">
-          <div class="border border-gray-400 rounded shadow-md shadow-gray-500">
+          <div class="border border-gray-300 rounded shadow-md ">
             <div class="grid grid-cols-2">
               <div>
                 <img
                   :src="productItem.images[0]"
                   alt=""
-                  class="h-[250px] object-cover w-full"
+                  class="object-cover w-full h-full"
                 />
               </div>
               <div class="m-5">
                 <h1 class="font-bold mb-3">
                   PKR :
-                  <span class="text-blue-500"> {{ productItem.price }}</span>
+                  <span class="text-gray-500 text-sm"> {{ productItem.price }}</span>
                 </h1>
                 <h1 class="font-bold mb-1">
                   Title :
-                  <span class="text-blue-500"> {{ productItem.title }}</span>
+                  <span class="text-gray-500 text-sm"> {{ productItem.title }}</span>
                 </h1>
                 <h1 class="text-gray-800 mb-1 font-bold">
                   Description :
-                  <span class="text-blue-500">{{ productItem.description }}</span>
+                  <span class="text-gray-500 text-sm">{{ productItem.description }}</span>
                 </h1>
                 <h1 class="text-gray-800 text-md font-bold mb-2">
                   Location :
-                  <span class="text-blue-500">{{ productItem.location }}</span>
+                  <span class="text-gray-500 text-sm">{{ productItem.location }}</span>
                 </h1>
                 <hr />
                 <div class="flex mt-5">
