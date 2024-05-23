@@ -9,7 +9,7 @@ import { useProductStore } from "@/stores/Auth/Post/products";
 import ValidtaionError from "../common/ValidtaionError.vue";
 const product = useProductStore();
 const { isLoading } = useProductStore();
-import successMsg from '@/components/WebRelated/SuccessMsg.vue';
+import successMsg from "@/components/WebRelated/SuccessMsg.vue";
 
 const state = useCommonStore();
 const category = useCategoryStore();
@@ -57,17 +57,13 @@ const handleSubmit = async () => {
 
   await product.storeProduct(formData);
 
-  if (product.isMessage) {
-    clearInputFields();
-  }
+
 };
 </script>
 
 <template>
-  <div class="grid  justify-end relative" id="msg" v-if="product.isMessage">
-    <successMsg />
-  </div>
-  
+ 
+
   <div class="flex justify-center">
     <div class="md:w-[50%] w-full my-10 bg-gray-100 p-5 rounded-md">
       <form
@@ -77,7 +73,7 @@ const handleSubmit = async () => {
       >
         <div class="grid grid-cols-12 gap-3">
           <label for="cat" class="md:col-span-6 col-span-12">
-            <span class="text-gray-600">Select Your Category</span>
+            <span class="text-gray-600">Select  Category *</span>
 
             <multiselect
               v-model="productState.category"
@@ -86,14 +82,14 @@ const handleSubmit = async () => {
               id="cat"
               label="name"
               :searchable="true"
-              placeholder="Select Your Location"
+              placeholder="Category"
             >
             </multiselect>
             <ValidtaionError field="category_id" />
           </label>
 
           <label for="loc" class="md:col-span-6 col-span-12">
-            <span class="text-gray-600">Select Your Location</span>
+            <span class="text-gray-600">Select  Location * </span>
 
             <multiselect
               v-model="productState.location"
@@ -102,30 +98,27 @@ const handleSubmit = async () => {
               id="loc"
               label="name"
               :searchable="true"
-              placeholder="Select Your Location"
+              placeholder="Location"
             >
             </multiselect>
             <ValidtaionError field="location" />
           </label>
           <label for="" class="col-span-6">
-            <BaseInput label="Title" type="text" v-model="productState.title" />
+            <BaseInput label="Title * " type="text" v-model="productState.title" />
             <ValidtaionError field="title" />
           </label>
 
-         
-          <label for=""  class="col-span-6" >
-
+          <label for="" class="col-span-6">
             <BaseInput
-            label="Price"
-            type="number"
-            v-model="productState.price"
-          />
-          <ValidtaionError field="price" />
-
+              label="Price * "
+              type="number"
+              v-model="productState.price"
+            />
+            <ValidtaionError field="price" />
           </label>
-         
+
           <label for="des" class="col-span-12 text-gray-600"
-            >Description
+            >Description *
             <textarea
               v-model="productState.description"
               name=""
@@ -136,30 +129,24 @@ const handleSubmit = async () => {
             >
             </textarea>
             <ValidtaionError field="description" />
-
-            
           </label>
-<div class="md:col-span-6 col-span-12">
-  <label
-            id="select-image"
-            class=" cursor-pointer flex bg-white border p-2 rounded border-gray-300 justify-center"
-          >
-            <input
-              type="file"
-              @change="ImagesChange"
-              multiple
-              accept="image/jpeg, image/png"
-            />
-            
-          </label>
-  <ValidtaionError field="images" />
-
-</div>
-          
-          
+          <div class="md:col-span-6 col-span-12">
+            <label
+              id="select-image"
+              class="cursor-pointer flex bg-white border p-2 rounded border-gray-300 justify-center"
+            >
+              <input
+                type="file"
+                @change="ImagesChange"
+                multiple
+                accept="image/jpeg, image/png"
+              />
+            </label>
+            <ValidtaionError field="images" />
+          </div>
 
           <ButtonPrimary
-            text="Add Post"
+            text="Add Product"
             class="col-span-6"
             :disabled="isLoading"
           />
@@ -167,7 +154,6 @@ const handleSubmit = async () => {
       </form>
     </div>
   </div>
-
 </template>
 <style scoped>
 #msg {

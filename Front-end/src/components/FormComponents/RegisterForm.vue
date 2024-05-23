@@ -48,7 +48,7 @@ const handleForm = async () => {
           <BaseInput
             placeholder="Name"
             type="text"
-            label="Name"
+            label="Name *"
             v-model="registerState.name"
           />
           <ValidtaionError field="name" />
@@ -57,7 +57,7 @@ const handleForm = async () => {
           <BaseInput
             placeholder="E-mail"
             type="email"
-            label="E-mail"
+            label="E-mail *"
             v-model="registerState.email"
           />
           <ValidtaionError field="email" />
@@ -68,7 +68,7 @@ const handleForm = async () => {
           <BaseInput
             placeholder="Password"
             type="password"
-            label="Password"
+            label="Password *"
             v-model="registerState.password"
           />
           <ValidtaionError field="password" />
@@ -79,7 +79,7 @@ const handleForm = async () => {
           <BaseInput
             placeholder="Confirm Password"
             type="password"
-            label="Confirm Password"
+            label="Confirm Password *"
             v-model="registerState.confirmPassword"
           />
           <ValidtaionError field="confirmPassword" />
@@ -90,7 +90,7 @@ const handleForm = async () => {
           <BaseInput
             placeholder="Phone"
             type="number"
-            label="Phone"
+            label="Phone *"
             v-model="registerState.phone"
           />
         </div>
@@ -99,7 +99,7 @@ const handleForm = async () => {
           <BaseInput
             placeholder="Date of Birth"
             type="date"
-            label="Date of Birth"
+            label="Date of Birth *"
             v-model="registerState.dob"
           />
           <ValidtaionError field="dob" />
