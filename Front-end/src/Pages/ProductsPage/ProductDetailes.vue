@@ -62,7 +62,7 @@ const deleteBtn = async () => {
   await product.deleteProduct(selectedId.value);
   isDeletePopUp.value = false;
 
-  if (product.isMessage) {
+  if (product.productDeleted) {
     router.go(-1);
   }
 };
@@ -102,7 +102,7 @@ const ReportModal = () => {
     <LoadinSpiner />
   </div>
   <div v-else>
-    <div class="mt-5 bg-gray-200 text-gray-00">
+    <div class="mt-5 shadow-md border text-gray-600">
       <button class="flex gap-2 md:mx-10 mx-5 py-3" @click="goBack">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -124,7 +124,7 @@ const ReportModal = () => {
       <h1 class="text-xl mt-5 md:mx-10 mx-5">No Product Detailes</h1>
     </div>
 
-    <div class="mx:mx-10 mx-5 my-5 bg-gray-100 rounded-md" v-else>
+    <div class="mx:mx-10 mx-5 my-5 shadow-md border  rounded-md" v-else>
       <div class="grid md:grid-cols-12 gap-5 p-5">
         <div class="md:col-span-8 col-span-12">
           <div>
@@ -148,7 +148,7 @@ const ReportModal = () => {
           </div>
         </div>
         <div class="md:col-span-4 col-span-12" id="font">
-          <div class="bg-gray-100 p-5 rounded border border-gray-400">
+          <div class="p-5 rounded border border-gray-300">
             <div class="flex gap-2 border">
               <img
                 src="https://www.olx.com.pk/assets/iconProfilePicture.7975761176487dc62e25536d9a36a61d.png"
@@ -170,7 +170,7 @@ const ReportModal = () => {
                 </span>
               </h2>
               <h2 class="my-auto mb-2">
-                Title :<span class="text-gray-500 text-sm">
+                Title : <span class="text-gray-500 text-sm">
                   {{ product.product?.title }}
                 </span>
               </h2>

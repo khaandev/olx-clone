@@ -32,7 +32,7 @@ const removeReport = async (id) => {
               <img
                 :src="reportedItem.product.images[0]"
                 alt=""
-                class="object-cover w-full h-full"
+                class="object-cover w-full h-[400px]"
               />
             </div>
             <div class="m-5">
@@ -59,7 +59,7 @@ const removeReport = async (id) => {
                   class="bg-red-600 text-white py-2 px-4 rounded"
                   @click="removeReport(reportedItem.id)"
                 >
-                  Reported
+                 Remove Report
                 </button>
               </div>
             </div>

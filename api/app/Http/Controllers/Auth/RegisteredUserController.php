@@ -40,7 +40,8 @@ class RegisteredUserController extends Controller
         ]);
 
         event(new Registered($user));
-        return response()->json(['message' => 'user Register Successfully']);
+
+        return response()->noContent();
     }
 
     

@@ -92,12 +92,7 @@ const router = createRouter({
 
     //admin pages
 
-    {
-      path: "/dashboard",
-      name: "Dashboard",
-      meta: { requiresAuth: true, admin: true },
-      component: () => import("@/Pages/Admin/Dashboard.vue"),
-    },
+  
     {
       path: "/category",
       name: "Category",
@@ -110,6 +105,11 @@ const router = createRouter({
       meta: { requiresAuth: true,admin: true },
       component: () => import("@/Pages/Admin/ProductReport.vue"),
     },
+    {
+      path: "/:pathMatch(.*)*",
+      name: "NotFound",
+      component: () => import("@/Pages/NotFound.vue"),
+    }
   ],
 });
 

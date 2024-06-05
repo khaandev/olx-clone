@@ -1,13 +1,15 @@
 import { ref, computed } from "vue";
 import axios from "@/http/Axios";
 import { defineStore } from "pinia";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 import { useCommonStore } from "../WebRelated/coman";
 
 export const useAuthStore = defineStore("Auth", () => {
   const isAuthenticated = ref(false);
   const userInfo = ref(null);
   const comman = useCommonStore();
-  const isSuccess = ref(false)
+  const isSuccess = ref(false);
 
   // user Login
 
@@ -19,27 +21,37 @@ export const useAuthStore = defineStore("Auth", () => {
       userInfo.value = res.data;
     } catch (error) {
       comman.validationError = error.response.data.errors;
+      toast.error("Error !", {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
   }
 
   // user register
 
-  async function Register(data) {
+  async function Register(data, registerState) {
     try {
-      const res = await axios.post("/register", data);
-      userInfo.value = res.data;
-      resetValidationsErrors();
-      isSuccess.value = true
-
+      await axios.post("/register", data);
+      comman.validationError = null;
+      toast.success("Register Success ", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      Object.keys(registerState).forEach((key) => {
+        registerState[key] = "";
+      });
     } catch (error) {
       if (error.response && error.response.data && error.response.data.errors) {
         comman.validationError = error.response.data.errors;
+        toast.error("Validation Error !", {
+          position: toast.POSITION.TOP_CENTER,
+        });
       } else {
-        console.log("Error occurred during registration:", error);
+        toast.error("Some thing went Wrong !", {
+          position: toast.POSITION.TOP_CENTER,
+        });
       }
     }
   }
-  
 
   // user load
   async function loadUser() {

@@ -3,19 +3,21 @@ import { ref } from "vue";
 import axios from "@/http/Axios";
 import { useCommonStore } from "@/stores/WebRelated/coman";
 const comman = useCommonStore();
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 export const useProductStore = defineStore("product", () => {
   const products = ref([]);
 
   const myProducts = ref([]);
   const productWithCategory = ref([]);
-  const currentCategory = ref(null)
+  const currentCategory = ref(null);
   const product = ref(null);
-  const validation = ref(null);
+  const productDeleted = ref(null);
+  const productUpdate = ref(null);
+
+
   const category = ref(null);
   const isLoading = ref(false);
-  const isMessage = ref(false);
-  const isSuccess = ref(false);
-
 
   async function indexMyProduct() {
     try {
@@ -60,29 +62,31 @@ export const useProductStore = defineStore("product", () => {
     }
   }
 
-  async function storeProduct(data) {
+  async function storeProduct(data, productState) {
     try {
       isLoading.value = true;
       const response = await axios.post(`/api/product`, data);
       product.value = response.data;
       products.value.push(response.data);
-      isSuccess.value = true;
-      isMessage.value = true;
+
+      toast.success("Product Added ! ", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      Object.keys(productState).forEach((key) => {
+        productState[key] = "";
+      });
       isLoading.value = false;
       comman.validationError = null;
-      setTimeout(() => {
-        isMessage.value = false;
-      }, 3000);
     } catch (error) {
-      isLoading.value = false;
-      isMessage.value = false;
-      isSuccess.value = false;
-
-
       if (error.response) {
         comman.validationError = error.response.data.errors;
+        toast.error("Validation Error ! ", {
+          position: toast.POSITION.TOP_CENTER,
+        });
       } else {
-        console.log("some thing went Worng");
+        toast.error("Some thing went Wrong !", {
+          position: toast.POSITION.TOP_CENTER,
+        });
       }
     }
   }
@@ -98,36 +102,31 @@ export const useProductStore = defineStore("product", () => {
     }
   }
 
-
   async function updateProduct(id, data) {
     try {
       isLoading.value = true;
       const response = await axios.post(`/api/product/${id}`, data);
       product.value = response.data;
+      productUpdate.value = response.data[0];
 
       isLoading.value = false;
-      isSuccess.value = true;
-      
     } catch (error) {
       isLoading.value = false;
-      isSuccess.value = false;
-
       comman.validationError = error.response?.data?.errors;
     }
   }
+
   async function deleteProduct(id) {
     try {
       isLoading.value = true;
-      const res = await axios.delete(`/api/product/${id}`);
-      isMessage.value = true;
+     const res =  await axios.delete(`/api/product/${id}`);
       isLoading.value = false;
+      productDeleted.value = res.data
     } catch (error) {
       isLoading.value = false;
-      isMessage.value = false;
-      
+
       if (error.response) {
         isLoading.value = false;
-        isMessage.value = false;
         comman.validationError = error.response?.data?.errors;
       } else {
         console.error(error);
@@ -136,13 +135,13 @@ export const useProductStore = defineStore("product", () => {
   }
 
   return {
-    isSuccess,
     indexMyProductWithCategory,
     isLoading,
+    productUpdate,
     updateProduct,
-    isMessage,
     productWithCategory,
     storeProduct,
+    productDeleted,
     deleteProduct,
     indexMyProduct,
     product,
@@ -150,7 +149,6 @@ export const useProductStore = defineStore("product", () => {
     currentCategory,
     indexProduct,
     products,
-    validation,
     category,
     myProducts,
   };

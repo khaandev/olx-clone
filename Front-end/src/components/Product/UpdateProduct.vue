@@ -55,7 +55,7 @@ const handleSubmit = async () => {
   }
 
   await product.updateProduct(props.selectedId, formData);
-if(product.isSuccess){
+if(product.productUpdate){
   emit('modalupdate');
   router.go(-1);
 }

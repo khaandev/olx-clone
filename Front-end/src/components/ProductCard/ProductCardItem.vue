@@ -27,7 +27,7 @@ onMounted(() => {
           Here Is some Latest Products In
           <span class="text-pink-500 text-2xl">{{ category.name }}</span>
         </h1>
-        <div class="grid md:grid-cols-2 grid-cols-1 gap-2">
+        <div class="grid md:grid-cols-3 grid-cols-1 gap-2">
           <div
             class="border border-gray-300 rounded shadow-md w-full"
             id="font"

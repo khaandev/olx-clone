@@ -28,7 +28,7 @@ onMounted(() => {
               <img
                 :src="reportProduct.product.images[0]"
                 alt=""
-                class="rounded-lg h-[100px] w-full object-cover"
+                class="rounded-lg h-[200px] w-full object-cover"
               />
               <div class="border border-gray-300 mt-2 p-2 rounded-lg">
                 <h1 class="text-gray-500">

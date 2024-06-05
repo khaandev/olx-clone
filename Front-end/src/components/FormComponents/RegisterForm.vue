@@ -1,13 +1,13 @@
 <script setup>
 import BaseInput from "@/components/WebRelated/BaseInput.vue";
-import RegisterFormCard  from "@/Pages/FormLayout.vue/RegisterFormCard .vue";
+import RegisterFormCard from "@/Pages/FormLayout.vue/RegisterFormCard .vue";
 import ButtonPrimary from "@/components/WebRelated/ButtonPrimary.vue";
 import ValidtaionError from "../common/ValidtaionError.vue";
 import { reactive, ref } from "vue";
 import { useAuthStore } from "@/stores/Auth/Auth";
 import router from "@/router/index.js";
 const auth = useAuthStore();
-const isLoading =ref(false)
+const isLoading = ref(false);
 const registerState = reactive({
   name: "",
   email: "",
@@ -19,7 +19,7 @@ const registerState = reactive({
   dob: "",
 });
 const handleForm = async () => {
-  isLoading.value = true
+  isLoading.value = true;
   const formData = {
     name: registerState.name,
     email: registerState.email,
@@ -30,20 +30,15 @@ const handleForm = async () => {
     phone: registerState.phone,
     dob: registerState.dob,
   };
-  await auth.Register(formData);
+  await auth.Register(formData,registerState);
 
-  if (auth.userInfo?.message == 'user Register Successfully' && auth.isSuccess ) {
-    router.push({ name: "Login" });
-  }
-
-  isLoading.value = false
-  
+  isLoading.value = false;
 };
 </script>
 <template>
   <RegisterFormCard>
     <form action="" @submit.prevent="handleForm">
-       <div class="grid grid-cols-12 gap-3">
+      <div class="grid grid-cols-12 gap-3">
         <div class="col-span-6">
           <BaseInput
             placeholder="Name"
@@ -61,7 +56,6 @@ const handleForm = async () => {
             v-model="registerState.email"
           />
           <ValidtaionError field="email" />
-
         </div>
 
         <div class="col-span-6">
@@ -72,7 +66,6 @@ const handleForm = async () => {
             v-model="registerState.password"
           />
           <ValidtaionError field="password" />
-
         </div>
 
         <div class="col-span-6">
@@ -83,14 +76,13 @@ const handleForm = async () => {
             v-model="registerState.confirmPassword"
           />
           <ValidtaionError field="confirmPassword" />
-
         </div>
 
         <div class="col-span-6">
           <BaseInput
             placeholder="Phone"
             type="number"
-            label="Phone *"
+            label="Phone"
             v-model="registerState.phone"
           />
         </div>
@@ -103,17 +95,12 @@ const handleForm = async () => {
             v-model="registerState.dob"
           />
           <ValidtaionError field="dob" />
-
         </div>
 
         <div class="col-span-12">
-          <div class="bg-gray-100 px-2 py-2 rounded  flex gap-2 border border-gray-400">
+          <div class="px-2 py-2 rounded flex gap-2 border border-gray-300">
             <label>
-              <input
-                type="radio"
-                v-model="registerState.gender"
-                value="Male"
-              />
+              <input type="radio" v-model="registerState.gender" value="Male" />
               Male
             </label>
             <label>
@@ -138,10 +125,12 @@ const handleForm = async () => {
           ></textarea>
         </div>
         <div class="col-span-12">
-          <ButtonPrimary :text="isLoading ? 'Registering...' : 'Register'" :disabled="isLoading" />
+          <ButtonPrimary
+            :text="isLoading ? 'Registering...' : 'Register'"
+            :disabled="isLoading"
+          />
         </div>
       </div>
     </form>
   </RegisterFormCard>
 </template>
-

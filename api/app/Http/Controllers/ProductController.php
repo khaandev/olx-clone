@@ -77,6 +77,7 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         $images = [];
+
     
         foreach ($request->file('images', []) as $uploadedImage) {
             $name = time() . '_' . $uploadedImage->getClientOriginalName();
@@ -100,14 +101,14 @@ class ProductController extends Controller
             'price' => $request->price,
             'description' => $request->description,
             'images' => $images,
-        ])->load('category', 'user');
+        ]);
     
         $product->images = is_array($product->images)
             ? $product->images
             : json_decode($product->images);
     
         return response()->json([
-            'message' => 'Product added successfully',
+             'success',
              $product
         ]);
     }
@@ -150,15 +151,13 @@ class ProductController extends Controller
  */
 public function update(ProductRequest $request, string $id)
 {
-  
-
     $product = Product::findOrFail($id);
     
     $user = auth()->user();
     if ($user->id !== $product->user_id) {
         return response()->json([
-            'message' => 'Unauthorized. You are not the owner of this product.',
-        ], 403);
+            'error',
+        ], 401);
     }
 
     $images = [];
@@ -185,7 +184,7 @@ public function update(ProductRequest $request, string $id)
         : json_decode($product->images);
 
     return response()->json([
-        'message' => 'Product updated successfully',
+        'success',
         $product
     ]);
 }
@@ -200,16 +199,14 @@ public function update(ProductRequest $request, string $id)
     $user = auth()->user();
     if ($user->id !== $product->user_id && $user->role === 'user') {
         return response()->json([
-            'message' => 'Unauthorized. You are not the owner of this product.',
+            'error' => 'Unauthorized. You are not the owner of this product.',
         ], 403);
     }
 
     // Delete the product
     $product->delete();
 
-    return response()->json([
-        'message' => 'Product deleted successfully',
-    ], 200);
+    return response()->json('success');
 }
 
 }

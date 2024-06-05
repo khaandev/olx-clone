@@ -7,6 +7,8 @@ onMounted(() => {
 
     myProduct.indexMyProduct()
 })
+import useTimeAgo from "@/Composables/useTimeAgo";
+const { truncateDescription} = useTimeAgo();
 </script>
 
 <template>
@@ -24,11 +26,11 @@ onMounted(() => {
         <div v-for="productItem in myProduct.myProducts" :key="productItem.id">
           <div class="border border-gray-300 rounded shadow-md ">
             <div class="grid grid-cols-2">
-              <div>
+              <div class="">
                 <img
                   :src="productItem.images[0]"
                   alt=""
-                  class="object-cover w-full h-full"
+                  class="object-cover  w-[400px]  h-[400px] "
                 />
               </div>
               <div class="m-5">
@@ -42,7 +44,8 @@ onMounted(() => {
                 </h1>
                 <h1 class="text-gray-800 mb-1 font-bold">
                   Description :
-                  <span class="text-gray-500 text-sm">{{ productItem.description }}</span>
+
+                  <span class="text-gray-500 text-sm">{{ truncateDescription(productItem.description) }}</span>
                 </h1>
                 <h1 class="text-gray-800 text-md font-bold mb-2">
                   Location :
